@@ -17,6 +17,18 @@
 
   <ion-list>
     <ion-item>
+      <ion-label floating>First Name</ion-label>
+      <ion-input type="text" [(ngModel)]="firstName"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label floating>Last Name</ion-label>
+      <ion-input type="text" [(ngModel)]="lastName"></ion-input>
+    </ion-item>
+    <ion-item>
+        <ion-label>Birthday</ion-label>
+        <ion-datetime displayFormat="MM/DD/YYYY" [(ngModel)]="birthday"></ion-datetime>
+      </ion-item>
+    <ion-item>
       <ion-label>Gender</ion-label>
       <ion-select [(ngModel)]="gender" interface="popover">
         <ion-option value="female">Female</ion-option>
@@ -24,25 +36,9 @@
       </ion-select>
     </ion-item>
     <ion-item>
-      <ion-label>Your Age</ion-label>
-      <ion-select [(ngModel)]="age" interface="popover">
-        <ion-option value=1>20s</ion-option>
-        <ion-option value=2>30s</ion-option>
-        <ion-option value=3>40s</ion-option>
-        <ion-option value=4>50s</ion-option>
-      </ion-select>
+      <ion-label floating>Phone Number</ion-label>
+      <ion-input type="text" [(ngModel)]="phone"></ion-input>
     </ion-item>
-    <ion-item>
-      <ion-label>Child Age</ion-label>
-      <ion-select [(ngModel)]="childAge" interface="popover">
-        <ion-option value=1>Less than 2 Yrs old</ion-option>
-        <ion-option value=2>2 Yrs old</ion-option>
-        <ion-option value=3>3 Yrs old</ion-option>
-        <ion-option value=4>4 Yrs old</ion-option>
-        <ion-option value=5>5 Yrs old</ion-option>
-      </ion-select>
-    </ion-item>
-
   </ion-list>
 
   <button ion-button full (click)="doneClicked($event)">Done</button>

@@ -19,9 +19,11 @@ import { WelcomePage } from '../../pages/welcome/welcome'
   templateUrl: 'basic.html',
 })
 export class BasicPage {
+  firstName: string = null;
+  lastName: string = null;
+  birthday: string = null;
   gender: string = null;
-  age: number = null;
-  childAge: number = null;
+  phone: string = null;
 
   constructor(public alertCtrl: AlertController, public userServiceProvider: UserserviceProvider, public navCtrl: NavController, public navParams: NavParams) {
     let name = this.userServiceProvider.getName();
@@ -39,7 +41,9 @@ export class BasicPage {
   }
 
   inputValid() {
-    //if (this.gender == null || this.childAge == null) { return false; }
+    if (this.firstName == null || this.lastName == null ||
+      this.birthday == null || this.gender == null ||
+      this.phone == null) { return false; }
     return true;
   }
 
@@ -52,6 +56,13 @@ export class BasicPage {
       });
       alert.present();
     } else {
+      let alert = this.alertCtrl.create({
+        title: 'Hello ' + this.firstName + ' ' + this.lastName + '!',
+        subTitle: "Your birthday is " + this.birthday + ", gender is " + this.gender +
+         ", and phone is " + this.phone,
+        buttons: ['OK']
+      });
+      alert.present();
       this.navCtrl.push(WelcomePage);
     }
   }
