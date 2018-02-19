@@ -39,7 +39,7 @@ export class MapPage {
   }
 
   ionViewDidLoad() {
-    this.loadMap();
+    //this.loadMap();
   }
 
   ///*
