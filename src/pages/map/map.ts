@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
+/*
 import {
   GoogleMaps,
   GoogleMap,
@@ -10,6 +11,11 @@ import {
   MarkerOptions,
   Marker
 } from '@ionic-native/google-maps';
+*/
+
+//import { GoogleMaps } from "@ionic-native/google-maps";
+import { GoogleMaps, GoogleMap, GoogleMapsEvent, GoogleMapOptions } from '@ionic-native/google-maps';
+
 
 /**
  * Generated class for the MapPage page.
@@ -22,7 +28,7 @@ import {
 @Component({
   selector: 'page-map',
   templateUrl: 'map.html',
-  //providers: [GoogleMap],
+  providers: [GoogleMaps],
 })
 
 
@@ -36,6 +42,7 @@ export class MapPage {
     this.loadMap();
   }
 
+  ///*
   loadMap() {
 
     let mapOptions: GoogleMapOptions = {
@@ -75,6 +82,7 @@ export class MapPage {
 
       });
   }
+  //*/
 
 
 }

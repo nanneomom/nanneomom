@@ -15,6 +15,19 @@ import { BasicPage } from '../pages/basic/basic'
 import { WelcomePage } from '../pages/welcome/welcome'
 import { MapPage } from '../pages/map/map'
 
+/*
+import {
+  GoogleMaps,
+  GoogleMap,
+  GoogleMapsEvent,
+  GoogleMapOptions,
+  CameraPosition,
+  MarkerOptions,
+  Marker
+} from '@ionic-native/google-maps';
+*/
+
+
 export const environment = {
   production: false,
   firebase: {
@@ -58,6 +71,9 @@ export const environment = {
     SplashScreen,
     { provide: ErrorHandler, useClass: IonicErrorHandler },
     UserserviceProvider,
+//    GoogleMaps,
+//    GoogleMap,
+//    Marker,
   ]
 })
 export class AppModule { }

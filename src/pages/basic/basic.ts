@@ -39,7 +39,7 @@ export class BasicPage {
   }
 
   inputValid() {
-    if (this.gender == null || this.childAge == null) { return false; }
+    //if (this.gender == null || this.childAge == null) { return false; }
     return true;
   }
 
