@@ -46,9 +46,6 @@ export class LoginPage {
   }
 
   loginGoogle() {
-    this.navCtrl.push(BasicPage);
-    /*
-
     this.userServiceProvider.loginGoogle(
       res => {
         console.log(res);
@@ -63,7 +60,24 @@ export class LoginPage {
         alert.present();
       }
     )
-    */
+  }
+
+  loginFake() {
+    this.userServiceProvider.loginEmail(
+      res => {
+        console.log(res);
+        this.navCtrl.push(BasicPage)
+      },
+      err => {
+        console.log(err);
+        let alert = this.alertCtrl.create({
+          title: 'Login failed!',
+          buttons: ['OK']
+        });
+        alert.present();
+      }
+    )
+
   }
 
   logout() {

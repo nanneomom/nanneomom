@@ -1,6 +1,6 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { AngularFireAuth } from 'angularfire2/auth';
+import {HttpClient} from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {AngularFireAuth} from 'angularfire2/auth';
 import firebase from 'firebase';
 
 
@@ -11,62 +11,94 @@ import firebase from 'firebase';
   and Angular DI.
 */
 @Injectable()
-export class UserserviceProvider {
+export class UserserviceProvider
+{
+  uid: any;
   name: any;
   email: any;
   imageUrl: any;
   isLoggedIn: boolean = false;
 
 
-  constructor(public http: HttpClient, private fireAuth: AngularFireAuth) {
+  constructor(public http: HttpClient, private fireAuth: AngularFireAuth)
+  {
     console.log('Hello UserserviceProvider Provider');
   }
 
+  updateUser(uid, name, email)
+  {
+    this.uid        = uid;
+    this.name       = name;
+    this.email      = email;
+    this.isLoggedIn = true;
+    console.log('---user info updated---');
+    console.log('uid=' + uid);
+    console.log('name=' + name);
+    console.log('email=' + email);
+  }
 
-  loginFacebook(success, fail) {
+
+  loginFacebook(success, fail)
+  {
     this.fireAuth.auth.signInWithPopup(new firebase.auth.FacebookAuthProvider())
-      .then(res => {
-        console.log('---from google---')
-        console.log(res.user.displayName)
-        this.name = res.user.displayName;
-        this.email = res.user.email;
-        this.isLoggedIn = true;
-        success(res);
-      })
-      .catch(err => {
-        fail(err);
-      });
+        .then(res => {
+          console.log('---from google---');
+          console.log(res);
+          this.updateUser(res.user.uid, res.user.displayName, res.user.email);
+          success(res);
+        })
+        .catch(err => {
+          fail(err);
+        });
   }
 
-  loginGoogle(success, fail) {
+  loginGoogle(success, fail)
+  {
     this.fireAuth.auth.signInWithPopup(new firebase.auth.GoogleAuthProvider())
-      .then(res => {
-        console.log('---from google---')
-        console.log(res.user.displayName)
-        this.name = res.user.displayName;
-        this.email = res.user.email;
-        this.isLoggedIn = true;
-        success(res);
-      })
-      .catch(err => {
-        fail(err);
-      });
+        .then(res => {
+          console.log('---from google---');
+          console.log(res);
+          this.updateUser(res.user.uid, res.user.displayName, res.user.email);
+          success(res);
+        })
+        .catch(err => {
+          fail(err);
+        });
   }
 
-  logout() {
-    return this.fireAuth.auth.signOut()
-      .then(res => {
-        this.name = null;
-        this.email = null;
-        this.isLoggedIn = false;
-      });
-
+  loginEmail(success, fail)
+  {
+    var email  = 'nanneomom@gmail.com';
+    var passwd = 'ahya2486';
+    this.fireAuth.auth.signInWithEmailAndPassword(email, passwd)
+        .then(res => {
+          console.log('---from email---');
+          console.log(res);
+          this.updateUser(res.uid, "", res.email);
+          success(res);
+        })
+        .catch(err => {
+          fail(err);
+        });
   }
 
-  getName() {
-    if (this.isLoggedIn) {
+  logout()
+  {
+    return this.fireAuth.auth.signOut().then(res => {
+      this.name       = null;
+      this.email      = null;
+      this.isLoggedIn = false;
+    });
+  }
+
+  getName()
+  {
+    if (this.isLoggedIn)
+    {
       return this.name;
-    } else {
+    }
+    else
+    {
       return null;
     }
   }

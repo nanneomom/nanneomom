@@ -1,42 +1,30 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { ErrorHandler, NgModule } from '@angular/core';
-import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
-import { SplashScreen } from '@ionic-native/splash-screen';
-import { StatusBar } from '@ionic-native/status-bar';
-import { AngularFireModule } from 'angularfire2';
-import { AngularFireAuthModule } from 'angularfire2/auth';
+import {HttpClientModule} from '@angular/common/http'
+import {ErrorHandler, NgModule} from '@angular/core';
+import {BrowserModule} from '@angular/platform-browser';
+import {SplashScreen} from '@ionic-native/splash-screen';
+import {StatusBar} from '@ionic-native/status-bar';
+import {AngularFireModule} from 'angularfire2';
+import {AngularFireAuthModule} from 'angularfire2/auth';
+import {IonicApp, IonicErrorHandler, IonicModule} from 'ionic-angular';
 
-import { MyApp } from './app.component';
-import { HttpClientModule } from '@angular/common/http'
-import { UserserviceProvider } from '../providers/userservice/userservice';
-import { HomePage } from '../pages/home/home';
-import { LoginPage } from '../pages/login/login'
-import { BasicPage } from '../pages/basic/basic'
-import { WelcomePage } from '../pages/welcome/welcome'
-import { MapPage } from '../pages/map/map'
+import {BasicPage} from '../pages/basic/basic'
+import {HomePage} from '../pages/home/home';
+import {LoginPage} from '../pages/login/login'
+import {MapPage} from '../pages/map/map'
+import {WelcomePage} from '../pages/welcome/welcome'
+import {UserserviceProvider} from '../providers/userservice/userservice';
 
-/*
-import {
-  GoogleMaps,
-  GoogleMap,
-  GoogleMapsEvent,
-  GoogleMapOptions,
-  CameraPosition,
-  MarkerOptions,
-  Marker
-} from '@ionic-native/google-maps';
-*/
-
+import {MyApp} from './app.component';
 
 export const environment = {
   production: false,
   firebase: {
-    apiKey: "AIzaSyDDepsC_uUsRI5ONlCN-678xcjsRyLkq2U",
-    authDomain: "ionic-test-cd963.firebaseapp.com",
-    databaseURL: "https://ionic-test-cd963.firebaseio.com",
-    projectId: "ionic-test-cd963",
-    storageBucket: "",
-    messagingSenderId: "178669050576"
+    apiKey: 'AIzaSyDZCBSF7NiztK4_uy4nHjLq1ljhrbb8WYM',
+    authDomain: 'nanneo-1518386194514.firebaseapp.com',
+    databaseURL: 'https://nanneo-1518386194514.firebaseio.com',
+    projectId: 'nanneo-1518386194514',
+    storageBucket: 'nanneo-1518386194514.appspot.com',
+    messagingSenderId: '124360184526'
   }
 };
 
@@ -54,7 +42,8 @@ export const environment = {
     BrowserModule,
     IonicModule.forRoot(MyApp),
     AngularFireModule.initializeApp(environment.firebase),
-    AngularFireAuthModule, // imports firebase/auth, only needed for auth features,
+    AngularFireAuthModule,  // imports firebase/auth, only needed for auth
+                            // features,
     HttpClientModule,
   ],
   bootstrap: [IonicApp],
@@ -69,11 +58,10 @@ export const environment = {
   providers: [
     StatusBar,
     SplashScreen,
-    { provide: ErrorHandler, useClass: IonicErrorHandler },
+    {provide: ErrorHandler, useClass: IonicErrorHandler},
     UserserviceProvider,
-//    GoogleMaps,
-//    GoogleMap,
-//    Marker,
   ]
 })
-export class AppModule { }
+export class AppModule
+{
+}

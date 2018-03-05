@@ -1,18 +1,6 @@
 import {Component} from '@angular/core';
 import {ElementRef, ViewChild} from '@angular/core';
-/*
-import {
-  GoogleMaps,
-  GoogleMap,
-  GoogleMapsEvent,
-  GoogleMapOptions,
-  CameraPosition,
-  MarkerOptions,
-  Marker
-} from '@ionic-native/google-maps';
-*/
 
-// import { GoogleMaps } from "@ionic-native/google-maps";
 import {GoogleMap, GoogleMapOptions, GoogleMaps, GoogleMapsEvent} from '@ionic-native/google-maps';
 import {IonicPage, NavController, NavParams, Platform} from 'ionic-angular';
 
@@ -36,58 +24,20 @@ declare var google: any;
 
 export class MapPage
 {
-  /*
-  @ViewChild('map') mapElement: ElementRef;
-  map: any;
-  */
-
   map: GoogleMap;
 
   constructor(
       public platform: Platform, public navCtrl: NavController,
       public navParams: NavParams)
   {
-    platform.ready().then(() => {
-      //this.initMap();
-      this.loadMap();
-    });
   }
 
   ionViewDidLoad()
   {
-    /*
-    this.loadMap();
     this.platform.ready().then(() => {
       this.loadMap();
     });
-    */
   }
-
-  ngAfterViewInit()
-  {
-    /*
-    console.log('kirak 1');
-    this.platform.ready().then(() => {
-      console.log('kirak 2');
-      this.loadMap();
-    });
-    */
-  }
-
-  /*
-  initMap()
-  {
-    console.log('kirak 1');
-    this.map = new google.maps.Map(this.mapElement.nativeElement, {
-      zoom: 7,
-      // center: {lat: 41.85, lng: -87.65},
-      camera: {target: {lat: 43.0741904, lng: -89.3809802}, zoom: 18, tilt: 30},
-    });
-    this.map.one(GoogleMapsEvent.MAP_READY).then(() => {
-      console.log('Map is ready!');
-    });
-  }
-  */
 
   loadMap()
   {
