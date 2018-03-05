@@ -12,6 +12,7 @@ import {HomePage} from '../pages/home/home';
 import {LoginPage} from '../pages/login/login'
 import {MapPage} from '../pages/map/map'
 import {WelcomePage} from '../pages/welcome/welcome'
+import {MainTabsPage} from '../pages/main-tabs/main-tabs'
 import {UserserviceProvider} from '../providers/userservice/userservice';
 
 import {MyApp} from './app.component';
@@ -37,6 +38,7 @@ export const environment = {
     BasicPage,
     WelcomePage,
     MapPage,
+    MainTabsPage,
   ],
   imports: [
     BrowserModule,
@@ -54,6 +56,7 @@ export const environment = {
     BasicPage,
     WelcomePage,
     MapPage,
+    MainTabsPage,
   ],
   providers: [
     StatusBar,

@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { UserserviceProvider } from '../../providers/userservice/userservice'
 import { AlertController } from 'ionic-angular';
-import { MapPage } from '../../pages/map/map'
+import { MainTabsPage } from '../../pages/main-tabs/main-tabs'
 
 
 /**
@@ -38,6 +38,6 @@ export class WelcomePage {
     });
     //alert.present();
 
-    this.navCtrl.push(MapPage);
+    this.navCtrl.push(MainTabsPage);
   }
 }

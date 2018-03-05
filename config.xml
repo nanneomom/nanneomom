@@ -95,8 +95,8 @@
         <variable name="PLAY_SERVICES_VERSION" value="11.8.0" />
         <variable name="ANDROID_SUPPORT_V4_VERSION" value="24.1.0" />
     </plugin>
-    <engine name="browser" spec="5.0.3" />
     <allow-navigation href="http://localhost:8100" />
-    <engine name="android" spec="~7.0.0" />
     <plugin name="cordova-plugin-statusbar" spec="^2.4.1" />
+    <engine name="browser" spec="5.0.3" />
+    <engine name="android" spec="7.0.0" />
 </widget>

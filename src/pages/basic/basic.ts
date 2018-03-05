@@ -24,6 +24,7 @@ export class BasicPage {
   birthday: string = null;
   gender: string = null;
   phone: string = null;
+  fake = true;
 
   constructor(public alertCtrl: AlertController, public userServiceProvider: UserserviceProvider, public navCtrl: NavController, public navParams: NavParams) {
     let name = this.userServiceProvider.getName();
@@ -41,10 +42,12 @@ export class BasicPage {
   }
 
   inputValid() {
+    if(this.fake) return true;
     if (this.firstName == null || this.lastName == null ||
       this.birthday == null || this.gender == null ||
       this.phone == null) { return false; }
     return true;
+
   }
 
   doneClicked(event) {
