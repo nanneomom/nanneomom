@@ -30,7 +30,7 @@ export class WelcomePage {
   }
 
   beginClicked(event) {
-    let name = this.userServiceProvider.getName();
+    let name = this.userServiceProvider.getFirstName();
     let alert = this.alertCtrl.create({
       title: 'Welcome!',
       subTitle: 'Hi ' + name + ", the next function is still in progress.",

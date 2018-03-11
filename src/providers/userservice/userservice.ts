@@ -13,30 +13,74 @@ import firebase from 'firebase';
 @Injectable()
 export class UserserviceProvider
 {
+  // Info from auth services (e.g., google or facebook).
   uid: any;
-  name: any;
   email: any;
   imageUrl: any;
-  isLoggedIn: boolean = false;
 
+  // Info from users.
+  firstName: string = null;
+  lastName: string  = null;
+  birthday: string  = null;
+  gender: string    = null;
+  phone: string     = null;
+
+  isLoggedIn: boolean = false;
+  fake                = false;
 
   constructor(public http: HttpClient, private fireAuth: AngularFireAuth)
   {
     console.log('Hello UserserviceProvider Provider');
   }
 
-  updateUser(uid, name, email)
+  updateUserLoginInfo(uid, email)
   {
     this.uid        = uid;
-    this.name       = name;
     this.email      = email;
     this.isLoggedIn = true;
     console.log('---user info updated---');
     console.log('uid=' + uid);
-    console.log('name=' + name);
     console.log('email=' + email);
   }
 
+  updateUserInfo(firstName, lastName, birthday, gender, phone, success, fail)
+  {
+    if (!this.fake &&
+        (firstName == null || lastName == null || birthday == null ||
+         gender == null || phone == null))
+    {
+      fail('Invalid user info.');
+      return;
+    }
+
+    this.firstName = firstName;
+    this.lastName  = lastName;
+    this.birthday  = birthday;
+    this.gender    = gender;
+    this.phone     = phone;
+    success();
+  }
+
+  getFirstName()
+  {
+    return this.firstName;
+  }
+  getLastName()
+  {
+    return this.lastName;
+  }
+  getBirthday()
+  {
+    return this.birthday;
+  }
+  getGender()
+  {
+    return this.gender;
+  }
+  getPhone()
+  {
+    return this.phone;
+  }
 
   loginFacebook(success, fail)
   {
@@ -44,7 +88,8 @@ export class UserserviceProvider
         .then(res => {
           console.log('---from google---');
           console.log(res);
-          this.updateUser(res.user.uid, res.user.displayName, res.user.email);
+          // TODO: use res.user.displayName
+          this.updateUserLoginInfo(res.user.uid, res.user.email);
           success(res);
         })
         .catch(err => {
@@ -58,7 +103,7 @@ export class UserserviceProvider
         .then(res => {
           console.log('---from google---');
           console.log(res);
-          this.updateUser(res.user.uid, res.user.displayName, res.user.email);
+          this.updateUserLoginInfo(res.user.uid, res.user.email);
           success(res);
         })
         .catch(err => {
@@ -74,7 +119,7 @@ export class UserserviceProvider
         .then(res => {
           console.log('---from email---');
           console.log(res);
-          this.updateUser(res.uid, "", res.email);
+          this.updateUserLoginInfo(res.uid, res.email);
           success(res);
         })
         .catch(err => {
@@ -85,21 +130,14 @@ export class UserserviceProvider
   logout()
   {
     return this.fireAuth.auth.signOut().then(res => {
-      this.name       = null;
+      this.uid        = null;
       this.email      = null;
+      this.firstName  = null;
+      this.lastName   = null;
+      this.birthday   = null;
+      this.gender     = null;
+      this.phone      = null;
       this.isLoggedIn = false;
     });
-  }
-
-  getName()
-  {
-    if (this.isLoggedIn)
-    {
-      return this.name;
-    }
-    else
-    {
-      return null;
-    }
   }
 }
