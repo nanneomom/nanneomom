@@ -14,9 +14,9 @@ import firebase from 'firebase';
 export class UserserviceProvider
 {
   // Info from auth services (e.g., google or facebook).
-  uid: any;
-  email: any;
-  imageUrl: any;
+  uid: string   = null;
+  email: string = null;
+  imageUrl: string;
 
   // Info from users.
   firstName: string = null;
@@ -33,18 +33,40 @@ export class UserserviceProvider
     console.log('Hello UserserviceProvider Provider');
   }
 
-  updateUserLoginInfo(uid, email)
+  needMoreInfo()
   {
-    this.uid        = uid;
-    this.email      = email;
-    this.isLoggedIn = true;
-    console.log('---user info updated---');
-    console.log('uid=' + uid);
-    console.log('email=' + email);
+    return !(
+        this.firstName != null && this.firstName != '' &&
+        this.lastName != null && this.lastName != '' && this.phone != null &&
+        this.phone != '');
+  }
+
+  updateUserLoginInfo(uid, email, success, fail)
+  {
+    this.writeUserAccount(uid, email)
+        .then(res => {
+          this.uid        = uid;
+          this.email      = email;
+          this.isLoggedIn = true;
+          console.log('=== Wrote user account');
+          console.log('uid=' + uid);
+          console.log('email=' + email);
+          success();
+        })
+        .catch(err => {
+          console.log('!!! Failed to write user account');
+          fail(err);
+        });
   }
 
   updateUserInfo(firstName, lastName, birthday, gender, phone, success, fail)
   {
+    if (this.uid == null || this.uid == '')
+    {
+      fail('UID is invalid')
+      return;
+    }
+
     if (!this.fake &&
         (firstName == null || lastName == null || birthday == null ||
          gender == null || phone == null))
@@ -53,12 +75,36 @@ export class UserserviceProvider
       return;
     }
 
-    this.firstName = firstName;
-    this.lastName  = lastName;
-    this.birthday  = birthday;
-    this.gender    = gender;
-    this.phone     = phone;
-    success();
+    this.writeUserData(this.uid, firstName, lastName, birthday, gender, phone)
+        .then(res => {
+          console.log('=== Wrote user data');
+          this.firstName = firstName;
+          this.lastName  = lastName;
+          this.birthday  = birthday;
+          this.gender    = gender;
+          this.phone     = phone;
+          success();
+        })
+        .catch(err => {
+          console.log('!!! Failed to write user account');
+          fail(err);
+        });
+  }
+
+  writeUserAccount(uid, email)
+  {
+    return firebase.database().ref('users/').child(uid).set({email: email});
+  }
+
+  writeUserData(uid, firstName, lastName, birthday, gender, phone)
+  {
+    return firebase.database().ref('userData/' + uid).set({
+      firstName: firstName,
+      lastName: lastName,
+      birthday: birthday,
+      gender: gender,
+      phone: phone
+    });
   }
 
   getFirstName()
@@ -89,8 +135,14 @@ export class UserserviceProvider
           console.log('---from google---');
           console.log(res);
           // TODO: use res.user.displayName
-          this.updateUserLoginInfo(res.user.uid, res.user.email);
-          success(res);
+          this.updateUserLoginInfo(
+              res.user.uid, res.user.email,
+              () => {
+                success(res);
+              },
+              (err) => {
+                fail(err);
+              });
         })
         .catch(err => {
           fail(err);
@@ -103,8 +155,14 @@ export class UserserviceProvider
         .then(res => {
           console.log('---from google---');
           console.log(res);
-          this.updateUserLoginInfo(res.user.uid, res.user.email);
-          success(res);
+          this.updateUserLoginInfo(
+              res.user.uid, res.user.email,
+              () => {
+                success(res);
+              },
+              (err) => {
+                fail(err);
+              });
         })
         .catch(err => {
           fail(err);
@@ -119,12 +177,34 @@ export class UserserviceProvider
         .then(res => {
           console.log('---from email---');
           console.log(res);
-          this.updateUserLoginInfo(res.uid, res.email);
-          success(res);
+          this.updateUserLoginInfo(
+              res.uid, res.email,
+              () => {
+                success(res);
+              },
+              (err) => {
+                fail(err);
+              });
         })
         .catch(err => {
           fail(err);
         });
+  }
+
+  signupUser(email: string, password: string): Promise<any>
+  {
+    return firebase.auth()
+        .createUserWithEmailAndPassword(email, password)
+        .then(newUser => {
+          firebase.database().ref('/userProfile').child(newUser.uid).set({
+            email: email
+          });
+        });
+  }
+
+  resetPassword(email: string): Promise<void>
+  {
+    return firebase.auth().sendPasswordResetEmail(email);
   }
 
   logout()

@@ -5,7 +5,15 @@ import { UserserviceProvider } from '../../providers/userservice/userservice'
 import { BasicPage } from '../../pages/basic/basic'
 import { AlertController } from 'ionic-angular';
 /**
- * Generated class for the LoginPage page.
+ * Generated class for the LoginPage   inputValid() {
+    if(this.fake) return true;
+    if (this.firstName == null || this.lastName == null ||
+      this.birthday == null || this.gender == null ||
+      this.phone == null) { return false; }
+    return true;
+
+  }
+page.
  *
  * See https://ionicframework.com/docs/components/#navigation for more info on
  * Ionic pages and navigation.

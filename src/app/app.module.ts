@@ -17,6 +17,8 @@ import {UserserviceProvider} from '../providers/userservice/userservice';
 
 import {MyApp} from './app.component';
 
+import firebase from 'firebase';
+
 export const environment = {
   production: false,
   firebase: {
@@ -29,6 +31,7 @@ export const environment = {
   }
 };
 
+firebase.initializeApp(environment.firebase);
 
 @NgModule({
   declarations: [
