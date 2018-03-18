@@ -3,7 +3,6 @@ import {Injectable} from '@angular/core';
 import {AngularFireAuth} from 'angularfire2/auth';
 import firebase from 'firebase';
 
-
 /*
   Generated class for the UserserviceProvider provider.
 
@@ -41,20 +40,21 @@ export class UserserviceProvider
         this.phone != '');
   }
 
-  updateUserLoginInfo(uid, email, success, fail)
+  checkUserLogin(uid, email, success, fail)
   {
-    this.writeUserAccount(uid, email)
-        .then(res => {
-          this.uid        = uid;
-          this.email      = email;
-          this.isLoggedIn = true;
-          console.log('=== Wrote user account');
-          console.log('uid=' + uid);
-          console.log('email=' + email);
-          success();
+    var ref = firebase.database().ref('users/').child(uid);
+    ref.once('value')
+        .then(snapshot => {
+          if (email == snapshot.val().email)
+          {
+            success();
+          }
+          else
+          {
+            fail('Email in auth module and user DB do not match!');
+          }
         })
         .catch(err => {
-          console.log('!!! Failed to write user account');
           fail(err);
         });
   }
@@ -75,7 +75,15 @@ export class UserserviceProvider
       return;
     }
 
-    this.writeUserData(this.uid, firstName, lastName, birthday, gender, phone)
+    firebase.database()
+        .ref('userData/' + this.uid)
+        .set({
+          firstName: firstName,
+          lastName: lastName,
+          birthday: birthday,
+          gender: gender,
+          phone: phone,
+        })
         .then(res => {
           console.log('=== Wrote user data');
           this.firstName = firstName;
@@ -89,22 +97,6 @@ export class UserserviceProvider
           console.log('!!! Failed to write user account');
           fail(err);
         });
-  }
-
-  writeUserAccount(uid, email)
-  {
-    return firebase.database().ref('users/').child(uid).set({email: email});
-  }
-
-  writeUserData(uid, firstName, lastName, birthday, gender, phone)
-  {
-    return firebase.database().ref('userData/' + uid).set({
-      firstName: firstName,
-      lastName: lastName,
-      birthday: birthday,
-      gender: gender,
-      phone: phone
-    });
   }
 
   getFirstName()
@@ -135,7 +127,7 @@ export class UserserviceProvider
           console.log('---from google---');
           console.log(res);
           // TODO: use res.user.displayName
-          this.updateUserLoginInfo(
+          this.checkUserLogin(
               res.user.uid, res.user.email,
               () => {
                 success(res);
@@ -155,7 +147,7 @@ export class UserserviceProvider
         .then(res => {
           console.log('---from google---');
           console.log(res);
-          this.updateUserLoginInfo(
+          this.checkUserLogin(
               res.user.uid, res.user.email,
               () => {
                 success(res);
@@ -169,15 +161,14 @@ export class UserserviceProvider
         });
   }
 
-  loginEmail(success, fail)
+  loginEmail(email, passwd, success, fail)
   {
-    var email  = 'nanneomom@gmail.com';
-    var passwd = 'ahya2486';
     this.fireAuth.auth.signInWithEmailAndPassword(email, passwd)
         .then(res => {
           console.log('---from email---');
-          console.log(res);
-          this.updateUserLoginInfo(
+          console.log('  uid=' + res.uid);
+          console.log('  email=' + res.email);
+          this.checkUserLogin(
               res.uid, res.email,
               () => {
                 success(res);

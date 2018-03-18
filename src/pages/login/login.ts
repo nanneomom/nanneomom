@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import {Component} from '@angular/core';
+import {IonicPage, NavController, NavParams} from 'ionic-angular';
+import {AlertController} from 'ionic-angular';
 
-import { UserserviceProvider } from '../../providers/userservice/userservice'
-import { BasicPage } from '../../pages/basic/basic'
-import { AlertController } from 'ionic-angular';
-/**
+import {BasicPage} from '../../pages/basic/basic'
+import {UserserviceProvider} from '../../providers/userservice/userservice'
+
+    /**
  * Generated class for the LoginPage   inputValid() {
     if(this.fake) return true;
     if (this.firstName == null || this.lastName == null ||
@@ -19,81 +20,92 @@ page.
  * Ionic pages and navigation.
  */
 
-@IonicPage()
-@Component({
-  selector: 'page-login',
-  templateUrl: 'login.html',
-})
-export class LoginPage {
+    @IonicPage() @Component({selector: 'page-login', templateUrl: 'login.html',})
+export class LoginPage
+{
+  email: string = null;
+  password: string = null;
 
   constructor(
-    public alertCtrl: AlertController,
-    public userServiceProvider: UserserviceProvider,
-    public navCtrl: NavController,
-    public navParams: NavParams) {
+      public alertCtrl: AlertController,
+      public userServiceProvider: UserserviceProvider,
+      public navCtrl: NavController, public navParams: NavParams)
+  {
   }
 
-  ionViewDidLoad() {
+  ionViewDidLoad()
+  {
     console.log('ionViewDidLoad LoginPage');
   }
 
-  loginFacebook() {
+  loginFacebook()
+  {
     this.userServiceProvider.loginFacebook(
-      res => {
-        console.log(res);
-      },
-      err => {
-        console.log(err);
-        let alert = this.alertCtrl.create({
-          title: 'Login failed!',
-          buttons: ['OK']
-        });
-        alert.present();
-      }
-    )
+        res => {
+          console.log(res);
+        },
+        err => {
+          console.log(err);
+          let alert =
+              this.alertCtrl.create({title: 'Login failed!', buttons: ['OK']});
+          alert.present();
+        })
   }
 
-  loginGoogle() {
+  loginGoogle()
+  {
     this.userServiceProvider.loginGoogle(
-      res => {
-        console.log(res);
-        this.navCtrl.push(BasicPage)
-      },
-      err => {
-        console.log(err);
-        let alert = this.alertCtrl.create({
-          title: 'Login failed!',
-          buttons: ['OK']
-        });
-        alert.present();
-      }
-    )
+        res => {
+          console.log(res);
+          this.navCtrl.push(BasicPage)
+        },
+        err => {
+          console.log(err);
+          let alert =
+              this.alertCtrl.create({title: 'Login failed!', buttons: ['OK']});
+          alert.present();
+        })
   }
 
-  loginFake() {
+  loginEmail()
+  {
     this.userServiceProvider.loginEmail(
-      res => {
-        console.log(res);
-        this.navCtrl.push(BasicPage)
-      },
-      err => {
-        console.log(err);
-        let alert = this.alertCtrl.create({
-          title: 'Login failed!',
-          buttons: ['OK']
-        });
-        alert.present();
-      }
-    )
-
+        //this.email, this.password,
+        "nanneomom@gmail.com", "ahya2486",
+        res => {
+          console.log(res);
+          this.navCtrl.push(BasicPage)
+        },
+        err => {
+          console.log(err);
+          let alert =
+              this.alertCtrl.create({title: 'Login failed!', buttons: ['OK']});
+          alert.present();
+        })
   }
 
-  logout() {
+  loginFake()
+  {
+    this.userServiceProvider.loginEmail(
+        'nanneomom@gmail.com', 'ahya2486',
+        res => {
+          console.log(res);
+          this.navCtrl.push(BasicPage)
+        },
+        err => {
+          console.log(err);
+          let alert =
+              this.alertCtrl.create({title: 'Login failed!', buttons: ['OK']});
+          alert.present();
+        })
+  }
+
+  logout()
+  {
     this.userServiceProvider.logout()
       .then(res => {
         console.log('---log out result---')
         console.log(res)
       })
   }
-
 }

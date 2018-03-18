@@ -14,8 +14,19 @@
 
 
 <ion-content padding>
-    <button ion-button full (click)="loginFacebook()"> Facebook Login </button>
-    <button ion-button full (click)="loginGoogle()"> Google Login </button>
-    <button ion-button full (click)="loginFake()"> Fake Email Login </button>
-    <!-- <button ion-button full (click)="logout()"> Logout </button> -->
+  <button ion-button full (click)="loginFacebook()"> Facebook Login </button>
+  <button ion-button full (click)="loginGoogle()"> Google Login </button>
+  <ion-list>
+    <ion-item>
+      <ion-label fixed>Email</ion-label>
+      <ion-input type="text" [(ngModel)]="email"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label fixed>Password</ion-label>
+      <ion-input type="password" [(ngModel)]="password"></ion-input>
+    </ion-item>
+    <button ion-button full (click)="loginEmail()"> Email Login </button>
+  </ion-list>
+  <!-- <button ion-button full (click)="loginFake()"> Fake Email Login </button> -->
+  <!-- <button ion-button full (click)="logout()"> Logout </button> -->
 </ion-content>
