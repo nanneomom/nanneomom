@@ -65,8 +65,7 @@ export class LoginPage
   loginEmail()
   {
     this.userServiceProvider.loginEmail(
-        //this.email, this.password,
-        "nanneomom@gmail.com", "ahya2486",
+        this.email, this.password,
         res => {
           console.log(res);
           this.navCtrl.push(MainTabsPage)
@@ -82,7 +81,7 @@ export class LoginPage
   loginFake()
   {
     this.userServiceProvider.loginEmail(
-        'hokira@gmail.com', 'ahya2486',
+        'nanneomom@gmail.com', 'ahya2486',
         res => {
           console.log(res);
           this.navCtrl.push(MainTabsPage)
