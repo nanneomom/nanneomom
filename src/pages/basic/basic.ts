@@ -28,25 +28,34 @@ export class BasicPage
       public userServiceProvider: UserserviceProvider,
       public navCtrl: NavController, public navParams: NavParams)
   {
-    /*
-    let name = this.userServiceProvider.getFirstName();
-    let alert = this.alertCtrl.create({
-      title: 'Welcome!',
-      subTitle: 'Hi ' + name + ", let's begin with some basic information.",
-      buttons: ['OK']
-    });
-    alert.present();
-    */
+  }
+
+  ionViewWillLeave()
+  {
+    // update db
+    this.userServiceProvider.updateUserInfo(
+        this.firstName, this.lastName, this.birthday, this.gender, this.phone,
+        () => {
+          console.log('User info updated.');
+        },
+        (err) => {
+          console.log('Failed to update user info: ' + err);
+        });
   }
 
   ionViewDidLoad()
   {
-    console.log('ionViewDidLoad BasicPage');
-    this.firstName = this.userServiceProvider.getFirstName();
-    this.lastName  = this.userServiceProvider.getLastName();
-    this.birthday  = this.userServiceProvider.getBirthday();
-    this.gender    = this.userServiceProvider.getGender();
-    this.phone     = this.userServiceProvider.getPhone();
+    this.userServiceProvider.loadUserData(
+        () => {
+          this.firstName = this.userServiceProvider.getFirstName();
+          this.lastName  = this.userServiceProvider.getLastName();
+          this.birthday  = this.userServiceProvider.getBirthday();
+          this.gender    = this.userServiceProvider.getGender();
+          this.phone     = this.userServiceProvider.getPhone();
+        },
+        (err) => {
+          console.error('Failed to load user data: ' + err);
+        });
   }
 
   doneClicked(event)

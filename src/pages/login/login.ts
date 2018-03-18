@@ -2,7 +2,7 @@ import {Component} from '@angular/core';
 import {IonicPage, NavController, NavParams} from 'ionic-angular';
 import {AlertController} from 'ionic-angular';
 
-import {BasicPage} from '../../pages/basic/basic'
+import {MainTabsPage} from '../../pages/main-tabs/main-tabs'
 import {UserserviceProvider} from '../../providers/userservice/userservice'
 
     /**
@@ -33,11 +33,6 @@ export class LoginPage
   {
   }
 
-  ionViewDidLoad()
-  {
-    console.log('ionViewDidLoad LoginPage');
-  }
-
   loginFacebook()
   {
     this.userServiceProvider.loginFacebook(
@@ -57,7 +52,7 @@ export class LoginPage
     this.userServiceProvider.loginGoogle(
         res => {
           console.log(res);
-          this.navCtrl.push(BasicPage)
+          this.navCtrl.push(MainTabsPage)
         },
         err => {
           console.log(err);
@@ -74,7 +69,7 @@ export class LoginPage
         "nanneomom@gmail.com", "ahya2486",
         res => {
           console.log(res);
-          this.navCtrl.push(BasicPage)
+          this.navCtrl.push(MainTabsPage)
         },
         err => {
           console.log(err);
@@ -87,10 +82,10 @@ export class LoginPage
   loginFake()
   {
     this.userServiceProvider.loginEmail(
-        'nanneomom@gmail.com', 'ahya2486',
+        'hokira@gmail.com', 'ahya2486',
         res => {
           console.log(res);
-          this.navCtrl.push(BasicPage)
+          this.navCtrl.push(MainTabsPage)
         },
         err => {
           console.log(err);

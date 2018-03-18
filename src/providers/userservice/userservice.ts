@@ -25,7 +25,6 @@ export class UserserviceProvider
   phone: string     = null;
 
   isLoggedIn: boolean = false;
-  fake                = false;
 
   constructor(public http: HttpClient, private fireAuth: AngularFireAuth)
   {
@@ -47,6 +46,8 @@ export class UserserviceProvider
         .then(snapshot => {
           if (email == snapshot.val().email)
           {
+            this.uid   = uid;
+            this.email = email;
             success();
           }
           else
@@ -55,23 +56,92 @@ export class UserserviceProvider
           }
         })
         .catch(err => {
+          this.initUserAccount(
+              uid, email,
+              () => {
+                this.initUserData(
+                    uid,
+                    () => {
+                      this.uid   = uid;
+                      this.email = email;
+                      success();
+                    },
+                    () => {
+                      fail(err);
+                    });
+              },
+              () => {
+                fail(err);
+              });
+        });
+  }
+
+  initUserAccount(uid, email, success, fail)
+  {
+    var ref = firebase.database().ref('users/').child(uid);
+    ref.set({email: email})
+        .then(res => {
+          success();
+        })
+        .catch(err => {
+          fail(err);
+        });
+  }
+
+  initUserData(uid, success, fail)
+  {
+    var ref = firebase.database().ref('userData/').child(uid);
+    ref.set({
+         firstName: '',
+         lastName: '',
+         birthday: '',
+         gender: '',
+         phone: '',
+       })
+        .then(res => {
+          success();
+        })
+        .catch(err => {
+          fail(err);
+        });
+  }
+
+
+  initialized()
+  {
+    return (
+        this.uid != null && this.uid != '' && this.email != null &&
+        this.email != '');
+  }
+
+  loadUserData(success, fail)
+  {
+    if (!this.initialized())
+    {
+      fail('UID is invalid')
+      return;
+    }
+
+    var ref = firebase.database().ref('userData/').child(this.uid);
+    ref.once('value')
+        .then(snapshot => {
+          this.firstName = snapshot.val().firstName;
+          this.lastName  = snapshot.val().lastName;
+          this.gender    = snapshot.val().gender;
+          this.birthday  = snapshot.val().birthday;
+          this.phone     = snapshot.val().phone;
+          success();
+        })
+        .catch(err => {
           fail(err);
         });
   }
 
   updateUserInfo(firstName, lastName, birthday, gender, phone, success, fail)
   {
-    if (this.uid == null || this.uid == '')
+    if (!this.initialized())
     {
       fail('UID is invalid')
-      return;
-    }
-
-    if (!this.fake &&
-        (firstName == null || lastName == null || birthday == null ||
-         gender == null || phone == null))
-    {
-      fail('Invalid user info.');
       return;
     }
 
@@ -94,7 +164,7 @@ export class UserserviceProvider
           success();
         })
         .catch(err => {
-          console.log('!!! Failed to write user account');
+          console.error('!!! Failed to write user account');
           fail(err);
         });
   }
@@ -125,7 +195,6 @@ export class UserserviceProvider
     this.fireAuth.auth.signInWithPopup(new firebase.auth.FacebookAuthProvider())
         .then(res => {
           console.log('---from google---');
-          console.log(res);
           // TODO: use res.user.displayName
           this.checkUserLogin(
               res.user.uid, res.user.email,
@@ -146,7 +215,6 @@ export class UserserviceProvider
     this.fireAuth.auth.signInWithPopup(new firebase.auth.GoogleAuthProvider())
         .then(res => {
           console.log('---from google---');
-          console.log(res);
           this.checkUserLogin(
               res.user.uid, res.user.email,
               () => {
