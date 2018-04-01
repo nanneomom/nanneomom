@@ -13,7 +13,8 @@ import {UserserviceProvider} from '../../providers/userservice/userservice'
  * Ionic pages and navigation.
  */
 
-    @IonicPage() @Component({selector: 'page-basic', templateUrl: 'basic.html',})
+@IonicPage()
+@Component({selector: 'page-basic', templateUrl: 'basic.html',})
 export class BasicPage
 {
   firstName: string = null;

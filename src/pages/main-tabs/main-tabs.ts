@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { BasicPage } from '../../pages/basic/basic'
 import { MapPage } from '../../pages/map/map'
+import { OfferPage } from '../../pages/offer/offer'
+import { SearchPage } from '../../pages/search/search'
 
 /**
  * Generated class for the MainTabsPage page.
@@ -18,14 +20,7 @@ import { MapPage } from '../../pages/map/map'
 export class MainTabsPage {
   basicPage = BasicPage;
   mapPage = MapPage;
-
-  /*
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
-  }
-
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad MainTabsPage');
-  }
-  */
+  offerPage = OfferPage;
+  searchPage = SearchPage;
 
 }

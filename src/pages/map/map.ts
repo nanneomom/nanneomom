@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {ElementRef, ViewChild} from '@angular/core';
-
+import {Geolocation} from '@ionic-native/geolocation';
 import {GoogleMap, GoogleMapOptions, GoogleMaps, GoogleMapsEvent} from '@ionic-native/google-maps';
 import {IonicPage, NavController, NavParams, Platform} from 'ionic-angular';
 
@@ -28,7 +28,7 @@ export class MapPage
 
   constructor(
       public platform: Platform, public navCtrl: NavController,
-      public navParams: NavParams)
+      public navParams: NavParams, public geolocation: Geolocation)
   {
   }
 
@@ -36,11 +36,24 @@ export class MapPage
   {
     this.platform.ready().then(() => {
       this.loadMap();
+      console.log('hello');
     });
   }
 
   loadMap()
   {
+    this.geolocation.getCurrentPosition({ timeout: 30000 }).then(
+        (position) => {
+          console.log('hello location');
+          let loc = new google.maps.LatLng(
+              position.coords.latitude, position.coords.longitude);
+          console.log('current location: ' + loc);
+        },
+        (err) => {
+          console.log('failed location');
+          console.log(err);
+        });
+
     let mapOptions: GoogleMapOptions = {
       camera:
           {target: {lat: 43.0741904, lng: -89.3809802}, zoom: 18, tilt: 30}

@@ -279,4 +279,18 @@ export class UserserviceProvider
       this.isLoggedIn = false;
     });
   }
+
+  setOffering(value: boolean): Promise<any>
+  {
+    if (value)
+    {
+      return firebase.database().ref('offers/' + this.uid).set({
+        dummy: true,
+      });
+    }
+    else
+    {
+      return firebase.database().ref('offers/' + this.uid).remove();
+    }
+  }
 }
