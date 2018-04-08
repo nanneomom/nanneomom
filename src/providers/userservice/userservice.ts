@@ -280,7 +280,8 @@ export class UserserviceProvider
     });
   }
 
-  setOffering(value: boolean, location: string): Promise<any>
+  setOffering(value: boolean, location: string, lat: number, lng: number):
+      Promise<any>
   {
     if (value)
     {
@@ -289,6 +290,8 @@ export class UserserviceProvider
         lastName: this.lastName,
         phone: this.phone,
         location: location,
+        lat: lat,
+        lng: lng,
       });
     }
     else

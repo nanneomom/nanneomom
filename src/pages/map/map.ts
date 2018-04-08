@@ -26,6 +26,7 @@ declare var google: any;
 export class MapPage
 {
   map: GoogleMap;
+  mapInitialized: boolean = false;
 
   constructor(
       public platform: Platform, public navCtrl: NavController,
@@ -44,9 +45,10 @@ export class MapPage
   {
     this.getLocation(
         position => {
-          console.log("lat: " + position.coords.latitude);
-          console.log("lng: " + position.coords.longitude);
-          this.moveCamera(position.coords.latitude, position.coords.longitude);
+          console.log('lat: ' + position.coords.latitude);
+          console.log('lng: ' + position.coords.longitude);
+          this.tryMoveCamera(
+              position.coords.latitude, position.coords.longitude);
         },
         err => {
           console.log('error updating location!!!: ');
@@ -68,36 +70,48 @@ export class MapPage
     });
   }
 
+  tryMoveCamera(lat, lng)
+  {
+    if (this.mapInitialized)
+    {
+      this.moveCamera(lat, lng)
+    }
+    else
+    {
+      this.map.one(GoogleMapsEvent.MAP_READY).then(() => {
+        this.mapInitialized = true;
+        this.moveCamera(lat, lng);
+      });
+    }
+  }
+
   moveCamera(lat, lng)
   {
-    // Wait the MAP_READY before using any methods.
-    this.map.one(GoogleMapsEvent.MAP_READY).then(() => {
-      console.log('Map is ready!');
+    var loc = {'lat': lat, 'lng': lng};
 
-      var loc = {'lat': 43.0741904, 'lng': -89.3809802};
-      this.map.animateCamera(
-          {
-            'target': loc,
-            'tilt': 60,
-            'zoom': 18,
-            'bearing': 140,
-            'duration': 1000  // = 5 sec.
-          });
-
-
-      // Now you can use all methods safely.
-      this.map
-          .addMarker({
-            title: 'Ionic',
-            icon: 'blue',
-            animation: 'DROP',
-            position: {lat: 43.0741904, lng: -89.3809802}
-          })
-          .then(marker => {
-            marker.on(GoogleMapsEvent.MARKER_CLICK).subscribe(() => {
-              alert('clicked');
-            });
-          });
+    console.log('moving camera!');
+    this.map.animateCamera({
+      'target': loc,
+      'tilt': 60,
+      'zoom': 10,
+      'bearing': 140,
+      'duration': 1000  // = 5 sec.
     });
+
+    /*
+    // Now you can use all methods safely.
+    this.map
+        .addMarker({
+          title: 'Ionic',
+          icon: 'blue',
+          animation: 'DROP',
+          position: {lat: 43.0741904, lng: -89.3809802}
+        })
+        .then(marker => {
+          marker.on(GoogleMapsEvent.MARKER_CLICK).subscribe(() => {
+            alert('clicked');
+          });
+        });
+        */
   }
 }

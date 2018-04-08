@@ -16,9 +16,11 @@
 <ion-content padding>
 
   <ion-card *ngFor="let item of items" class="advanced-background">
-    <h2>{{item.lastName}}, {{item.firstName}}</h2>
-    <p [innerText]="item.phone"></p>
-    <p [innerText]="item.location"></p>
+    <h2>Name: {{item.lastName}}, {{item.firstName}}</h2>
+    <h2>Phone: {{item.phone}}</h2>
+    <h2>Location: {{item.location}}</h2>
+    <h2>Latitude: {{item.lat}}</h2>
+    <h2>Longitude: {{item.lng}}</h2>
   </ion-card>
 
 </ion-content>

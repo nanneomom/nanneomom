@@ -1,5 +1,7 @@
 import {Component} from '@angular/core';
+import {Geolocation} from '@ionic-native/geolocation';
 import {IonicPage, NavController, NavParams} from 'ionic-angular';
+
 import {UserserviceProvider} from '../../providers/userservice/userservice'
 
     /**
@@ -8,16 +10,16 @@ import {UserserviceProvider} from '../../providers/userservice/userservice'
  * See https://ionicframework.com/docs/components/#navigation for more info on
  * Ionic pages and navigation.
  */
-
     @IonicPage() @Component({selector: 'page-offer', templateUrl: 'offer.html',})
 export class OfferPage
 {
   offering: boolean = false;
-  location: string = 'home';
+  location: string  = 'home';
 
   constructor(
       public navCtrl: NavController, public navParams: NavParams,
-      public userServiceProvider: UserserviceProvider)
+      public userServiceProvider: UserserviceProvider,
+      public geolocation: Geolocation)
   {
   }
 
@@ -26,9 +28,12 @@ export class OfferPage
     console.log('ionViewDidLoad OfferPage');
     this.userServiceProvider.getOffering(
         result => {
-          if (result == null) {
+          if (result == null)
+          {
             this.offering = false;
-          } else {
+          }
+          else
+          {
             this.offering = true;
             this.location = result.location;
           }
@@ -40,12 +45,22 @@ export class OfferPage
 
   offerChanged()
   {
-    this.userServiceProvider.setOffering(this.offering, this.location)
-        .then(res => {
-          console.log('!!! Posted offer');
-        })
-        .catch(err => {
-          console.error('error posting an offer: ' + err);
+    var options = {enableHighAccuracy: false, timeout: 5000, maximumAge: 0};
+    this.geolocation.getCurrentPosition(options).then(
+        (position) => {
+          this.userServiceProvider
+              .setOffering(
+                  this.offering, this.location, position.coords.latitude,
+                  position.coords.longitude)
+              .then(res => {
+                console.log('!!! Posted offer');
+              })
+              .catch(err => {
+                console.error('error posting an offer: ' + err);
+              });
+        },
+        (err) => {
+          alert('Error getting location: ' + err.message);
         });
   }
 }
