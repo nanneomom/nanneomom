@@ -280,24 +280,21 @@ export class UserserviceProvider
     });
   }
 
-  setOffering(value: boolean, location: string, lat: number, lng: number):
-      Promise<any>
+  setOffering(location: string, lat: number, lng: number): Promise<any>
   {
-    if (value)
-    {
-      return firebase.database().ref('offers/' + this.uid).set({
-        firstName: this.firstName,
-        lastName: this.lastName,
-        phone: this.phone,
-        location: location,
-        lat: lat,
-        lng: lng,
-      });
-    }
-    else
-    {
-      return firebase.database().ref('offers/' + this.uid).remove();
-    }
+    return firebase.database().ref('offers/' + this.uid).set({
+      firstName: this.firstName,
+      lastName: this.lastName,
+      phone: this.phone,
+      location: location,
+      lat: lat,
+      lng: lng,
+    });
+  }
+
+  resetOffering(): Promise<any>
+  {
+    return firebase.database().ref('offers/' + this.uid).remove();
   }
 
   getOffering(success, fail)

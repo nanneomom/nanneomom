@@ -38,23 +38,20 @@ export class MapPage
   {
     this.platform.ready().then(() => {
       this.map = GoogleMaps.create('map_canvas');
+      this.map.one(GoogleMapsEvent.MAP_READY).then(() => {
+        console.log('map ready!!!');
+        this.mapInitialized = true;
+        this.tryMoveCamera();
+      });
     });
   }
 
   ionViewDidEnter()
   {
-    this.getLocation(
-        position => {
-          console.log('lat: ' + position.coords.latitude);
-          console.log('lng: ' + position.coords.longitude);
-          this.tryMoveCamera(
-              position.coords.latitude, position.coords.longitude);
-        },
-        err => {
-          console.log('error updating location!!!: ');
-        });
+    if (!this.mapInitialized)
+      return;
+    this.tryMoveCamera();
   }
-
 
   getLocation(success, fail)
   {
@@ -62,56 +59,60 @@ export class MapPage
     this.platform.ready().then(() => {
       this.geolocation.getCurrentPosition(options).then(
           (position) => {
-            success(position);
+            success(position.coords.latitude, position.coords.longitude);
           },
           (err) => {
-            alert('Error getting location: ' + err.message);
+            fail(err);
           });
     });
   }
 
-  tryMoveCamera(lat, lng)
+  tryMoveCamera()
   {
-    if (this.mapInitialized)
-    {
-      this.moveCamera(lat, lng)
-    }
-    else
-    {
-      this.map.one(GoogleMapsEvent.MAP_READY).then(() => {
-        this.mapInitialized = true;
-        this.moveCamera(lat, lng);
-      });
-    }
+    if (!this.mapInitialized)
+      return;
+
+    this.getLocation(
+        (lat, lng) => {
+          console.log('lat: ' + lat);
+          console.log('lng: ' + lng);
+          this.moveCamera(lat, lng);
+        },
+        err => {
+          console.log('error updating location!!!: ' + err.message);
+          // Use LA by default.
+          var lat = 34.0522;
+          var lng = -118.2437;
+          this.moveCamera(lat, lng);
+        });
   }
 
   moveCamera(lat, lng)
   {
     var loc = {'lat': lat, 'lng': lng};
 
-    console.log('moving camera!');
+    console.log('moving camera: lat=' + lat + 'lng=' + lng);
     this.map.animateCamera({
       'target': loc,
       'tilt': 60,
-      'zoom': 10,
+      'zoom': 8,
       'bearing': 140,
-      'duration': 1000  // = 5 sec.
+      'duration': 1000
     });
 
-    /*
-    // Now you can use all methods safely.
+    lat = lat + (Math.random() * 0.1);
+    lng = lng + (Math.random() * 0.1);
     this.map
         .addMarker({
           title: 'Ionic',
           icon: 'blue',
           animation: 'DROP',
-          position: {lat: 43.0741904, lng: -89.3809802}
+          position: {lat: lat, lng: lng}
         })
         .then(marker => {
           marker.on(GoogleMapsEvent.MARKER_CLICK).subscribe(() => {
             alert('clicked');
           });
         });
-        */
   }
 }
