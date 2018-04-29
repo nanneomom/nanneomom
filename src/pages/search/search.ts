@@ -1,39 +1,34 @@
-import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import {Component} from '@angular/core';
 import firebase from 'firebase';
+import {IonicPage, NavController, NavParams} from 'ionic-angular';
 
-/**
+import {UserserviceProvider} from '../../providers/userservice/userservice'
+
+    /**
  * Generated class for the SearchPage page.
  *
  * See https://ionicframework.com/docs/components/#navigation for more info on
  * Ionic pages and navigation.
  */
 
-@IonicPage()
-@Component({
-  selector: 'page-search',
-  templateUrl: 'search.html',
-})
-export class SearchPage {
+    @IonicPage() @Component({selector: 'page-search', templateUrl: 'search.html',})
 
+export class SearchPage
+{
   public items: Array<any> = [];
+  db_ref                   = null;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(
+      public navCtrl: NavController, public navParams: NavParams,
+      public userServiceProvider: UserserviceProvider)
+  {
   }
 
-  ionViewDidLoad() {
+  ionViewDidLoad()
+  {
     console.log('ionViewDidLoad SearchPage');
-
-    var ref = firebase.database().ref('offers/');
-
-    ref.on('value', itemSnapshot => {
-      this.items = [];
-      itemSnapshot.forEach( itemSnap => {
-        this.items.push(itemSnap.val());
-        console.log('item key: ' + itemSnap.key);
-        console.log('item val: ' + JSON.stringify(itemSnap.val()));
-        return false;
-      });
+    this.db_ref = this.userServiceProvider.onOfferChanged((key, value) => {
+      this.items.push(value);
     });
   }
 }

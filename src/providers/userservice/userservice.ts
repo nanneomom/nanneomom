@@ -314,4 +314,16 @@ export class UserserviceProvider
           fail(err);
         });
   }
+
+  // Takes per-offer handler and trigger it whenever new offer appears.
+  onOfferChanged(handler) {
+    var ref = firebase.database().ref('offers/');
+    ref.on('value', itemSnapshot => {
+      itemSnapshot.forEach( itemSnap => {
+        handler(itemSnap.key, itemSnap.val());
+        return false;
+      });
+    });
+    return ref;
+  }
 }

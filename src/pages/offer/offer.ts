@@ -15,6 +15,7 @@ import {UserserviceProvider} from '../../providers/userservice/userservice'
     @IonicPage() @Component({selector: 'page-offer', templateUrl: 'offer.html', providers: [GoogleMaps],})
 
 
+
 export class OfferPage
 {
   map: GoogleMap;
@@ -33,6 +34,7 @@ export class OfferPage
 
   ionViewDidLoad()
   {
+    console.log('ionViewDidLoad OfferPage');
     this.platform.ready().then(() => {
       this.map = GoogleMaps.create('map_canvas');
       this.map.one(GoogleMapsEvent.MAP_READY).then(() => {
@@ -43,7 +45,6 @@ export class OfferPage
           var lng = camera[0].target.lng;
           console.log('current loc: lat=' + lat + ', lng=' + lng);
         });
-
 
         var options = {enableHighAccuracy: false, timeout: 3000, maximumAge: 0};
         this.geolocation.getCurrentPosition(options).then(
@@ -63,7 +64,7 @@ export class OfferPage
 
   ionViewDidEnter()
   {
-    console.log('ionViewDidLoad OfferPage');
+    console.log('ionViewDidEnter OfferPage');
     this.userServiceProvider.getOffering(
         result => {
           if (result == null)
@@ -89,7 +90,6 @@ export class OfferPage
     var target = this.map.getCameraTarget();
     console.log('offer location: ' + target.lat + ', ' + target.lng);
 
-    var options = {enableHighAccuracy: false, timeout: 5000, maximumAge: 0};
     if (this.offering)
     {
       var loc = this.map.getCameraTarget();

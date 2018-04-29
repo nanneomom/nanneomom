@@ -4,6 +4,7 @@ import {Geolocation} from '@ionic-native/geolocation';
 
 import {GoogleMap, GoogleMapOptions, GoogleMaps, GoogleMapsEvent} from '@ionic-native/google-maps';
 import {IonicPage, NavController, NavParams, Platform} from 'ionic-angular';
+import {UserserviceProvider} from '../../providers/userservice/userservice'
 
 
 /**
@@ -27,10 +28,12 @@ export class MapPage
 {
   map: GoogleMap;
   mapInitialized: boolean = false;
+  db_ref                  = null;
 
   constructor(
       public platform: Platform, public navCtrl: NavController,
-      public navParams: NavParams, public geolocation: Geolocation)
+      public navParams: NavParams, public geolocation: Geolocation,
+      public userServiceProvider: UserserviceProvider)
   {
   }
 
@@ -99,20 +102,40 @@ export class MapPage
       'bearing': 140,
       'duration': 1000
     });
+    this.addMarkers();
+  }
 
-    lat = lat + (Math.random() * 0.1);
-    lng = lng + (Math.random() * 0.1);
-    this.map
-        .addMarker({
-          title: 'Ionic',
-          icon: 'blue',
-          animation: 'DROP',
-          position: {lat: lat, lng: lng}
-        })
-        .then(marker => {
-          marker.on(GoogleMapsEvent.MARKER_CLICK).subscribe(() => {
-            alert('clicked');
-          });
-        });
+  addMarkers()
+  {
+    if (this.db_ref)
+    {
+      // Register handler only once.
+      return;
+    }
+    if (!this.mapInitialized)
+    {
+      // Do this only if map was initialized.
+      return;
+    }
+
+    this.db_ref = this.userServiceProvider.onOfferChanged((key, value) => {
+      console.log('value: ' + JSON.stringify(value));
+      if (value.hasOwnProperty('firstName') && value.hasOwnProperty('lat') &&
+          value.hasOwnProperty('lng') && value.hasOwnProperty('location'))
+      {
+        this.map
+            .addMarker({
+              title: value.firstName,
+              icon: 'blue',
+              animation: 'DROP',
+              position: {lat: value.lat, lng: value.lng}
+            })
+            .then(marker => {
+              marker.on(GoogleMapsEvent.MARKER_CLICK).subscribe(() => {
+                alert('Location: ' + value.location);
+              });
+            });
+      }
+    });
   }
 }
