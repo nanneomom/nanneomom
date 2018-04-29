@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {Geolocation} from '@ionic-native/geolocation';
-import {GoogleMap, GoogleMapOptions, GoogleMaps, GoogleMapsEvent} from '@ionic-native/google-maps';
+import {GoogleMap, GoogleMaps, GoogleMapsEvent} from '@ionic-native/google-maps';
 import {IonicPage, NavController, NavParams, Platform} from 'ionic-angular';
 
 import {UserserviceProvider} from '../../providers/userservice/userservice'
@@ -40,12 +40,22 @@ export class OfferPage
       this.map.one(GoogleMapsEvent.MAP_READY).then(() => {
         console.log('map ready!!!');
         this.mapInitialized = true;
+
         this.map.on(GoogleMapsEvent.CAMERA_MOVE).subscribe((camera) => {
           var lat = camera[0].target.lat;
           var lng = camera[0].target.lng;
           console.log('current loc: lat=' + lat + ', lng=' + lng);
         });
 
+        var latlng = {lat: 34.0522, lng: -118.2437};
+        this.map.animateCamera({
+          'target': latlng,
+          'zoom': 8,
+          'duration': 1000
+        });
+
+
+        /*
         var options = {enableHighAccuracy: false, timeout: 3000, maximumAge: 0};
         this.geolocation.getCurrentPosition(options).then(
             (position) => {
@@ -58,6 +68,7 @@ export class OfferPage
             (err) => {
               console.log('Error getting location: ' + err.message);
             });
+            */
       });
     });
   }

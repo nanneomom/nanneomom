@@ -18,7 +18,7 @@ export class SearchPage
   public items: Array<any> = [];
   db_ref                   = null;
 
-  constructor(
+  constructor(    
       public navCtrl: NavController, public navParams: NavParams,
       public userServiceProvider: UserserviceProvider)
   {
