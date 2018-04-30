@@ -24,7 +24,7 @@ export class MapPage
   map: GoogleMap;
   mapInitialized: boolean = false;
   db_ref                  = null;
-  markers = new Map();
+  markers                 = new Map();
 
   constructor(
       public platform: Platform, public navCtrl: NavController,
@@ -52,7 +52,8 @@ export class MapPage
     this.tryMoveCamera();
   }
 
-  ionViewDidLeave() {
+  ionViewDidLeave()
+  {
     console.log('leave');
     this.removeAllMarkers();
   }
@@ -125,7 +126,7 @@ export class MapPage
     {
       this.map
           .addMarker({
-            title: value.firstName,
+            title: value.firstName + ', more info...',
             icon: 'blue',
             animation: 'DROP',
             position: {lat: value.lat, lng: value.lng}
@@ -140,12 +141,14 @@ export class MapPage
     }
   }
 
-  removeAllMarkers() {
-    console.log('remove all keys: ' + JSON.stringify(this.markers));
-    for (var [key, value] of this.markers) {
-      console.log('removeing: ' + key);
-      value.remove();
-    }
+  removeAllMarkers()
+  {
+    this.markers.forEach(
+        (value, key, map) => {
+          console.log(`removing marker key: $(key)`);
+          value.remove();
+        }
+    );
     this.markers.clear();
   }
 
@@ -172,7 +175,6 @@ export class MapPage
     }
 
     var ref = firebase.database().ref('offers/');
-    //ref.on('child_added', function(data) {
     ref.on('child_added', (data) => {
       console.log('added key: ' + data.key);
       console.log('added val: ' + JSON.stringify(data));
@@ -189,19 +191,13 @@ export class MapPage
       this.tryAddMarker(key, value);
     });
 
-    ref.on('child_changed', function(data) {
+    ref.on('child_changed', (data) => {
       this.tryRemoveMarker(data.key);
       this.tryAddMarker(data.key, data.val());
     });
 
-    ref.on('child_removed', function(data) {
+    ref.on('child_removed', (data) => {
       this.tryRemoveMarker(data.key);
     });
-
-    /*
-    this.db_ref = this.userServiceProvider.onOfferChanged((key, value) => {
-      console.log('value: ' + JSON.stringify(value));
-    });
-    */
   }
 }

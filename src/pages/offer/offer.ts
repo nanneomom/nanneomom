@@ -40,18 +40,12 @@ export class OfferPage
       this.map.one(GoogleMapsEvent.MAP_READY).then(() => {
         console.log('map ready!!!');
         this.mapInitialized = true;
+        this.tryMoveCamera();
 
         this.map.on(GoogleMapsEvent.CAMERA_MOVE).subscribe((camera) => {
           var lat = camera[0].target.lat;
           var lng = camera[0].target.lng;
           console.log('current loc: lat=' + lat + ', lng=' + lng);
-        });
-
-        var latlng = {lat: 34.0522, lng: -118.2437};
-        this.map.animateCamera({
-          'target': latlng,
-          'zoom': 8,
-          'duration': 1000
         });
 
 
@@ -73,9 +67,20 @@ export class OfferPage
     });
   }
 
+  tryMoveCamera()
+  {
+    if (this.mapInitialized)
+    {
+      var latlng = {lat: 34.0522, lng: -118.2437};
+      this.map.animateCamera({'target': latlng, 'zoom': 8, 'duration': 1000});
+    }
+  }
+
   ionViewDidEnter()
   {
     console.log('ionViewDidEnter OfferPage');
+    this.tryMoveCamera();
+
     this.userServiceProvider.getOffering(
         result => {
           if (result == null)
