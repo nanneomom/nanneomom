@@ -21,6 +21,7 @@ export class UserserviceProvider
   firstName: string = null;
   lastName: string  = null;
   birthday: string  = null;
+  kid_birthday: string  = null;
   gender: string    = null;
   phone: string     = null;
 
@@ -95,6 +96,7 @@ export class UserserviceProvider
          firstName: '',
          lastName: '',
          birthday: '',
+         kid_birthday: '',
          gender: '',
          phone: '',
        })
@@ -129,6 +131,7 @@ export class UserserviceProvider
           this.lastName  = snapshot.val().lastName;
           this.gender    = snapshot.val().gender;
           this.birthday  = snapshot.val().birthday;
+          this.kid_birthday  = snapshot.val().kid_birthday;
           this.phone     = snapshot.val().phone;
           success();
         })
@@ -137,7 +140,7 @@ export class UserserviceProvider
         });
   }
 
-  updateUserInfo(firstName, lastName, birthday, gender, phone, success, fail)
+  updateUserInfo(firstName, lastName, birthday, kid_birthday, gender, phone, success, fail)
   {
     if (!this.initialized())
     {
@@ -151,6 +154,7 @@ export class UserserviceProvider
           firstName: firstName,
           lastName: lastName,
           birthday: birthday,
+          kid_birthday: kid_birthday,
           gender: gender,
           phone: phone,
         })
@@ -159,6 +163,7 @@ export class UserserviceProvider
           this.firstName = firstName;
           this.lastName  = lastName;
           this.birthday  = birthday;
+          this.kid_birthday  = kid_birthday;
           this.gender    = gender;
           this.phone     = phone;
           success();
@@ -180,6 +185,10 @@ export class UserserviceProvider
   getBirthday()
   {
     return this.birthday;
+  }
+  getKidBirthday()
+  {
+    return this.kid_birthday;
   }
   getGender()
   {
@@ -274,6 +283,7 @@ export class UserserviceProvider
       this.firstName  = null;
       this.lastName   = null;
       this.birthday   = null;
+      this.kid_birthday   = null;
       this.gender     = null;
       this.phone      = null;
       this.isLoggedIn = false;

@@ -16,9 +16,13 @@
       <ion-input type="text" [(ngModel)]="lastName"></ion-input>
     </ion-item>
     <ion-item>
-        <ion-label>User Birthday</ion-label>
-        <ion-datetime displayFormat="MM/DD/YYYY" [(ngModel)]="birthday"></ion-datetime>
-      </ion-item>
+      <ion-label>User Birthday</ion-label>
+      <ion-datetime displayFormat="MM/DD/YYYY" [(ngModel)]="mom_birthday"></ion-datetime>
+    </ion-item>
+    <ion-item>
+      <ion-label>First Kid's Birthday</ion-label>
+      <ion-datetime displayFormat="MM/YYYY" [(ngModel)]="kid_birthday"></ion-datetime>
+    </ion-item>
     <ion-item>
       <ion-label>Gender</ion-label>
       <ion-select [(ngModel)]="gender" interface="popover">

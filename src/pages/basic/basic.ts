@@ -13,16 +13,16 @@ import {UserserviceProvider} from '../../providers/userservice/userservice'
  * Ionic pages and navigation.
  */
 
-@IonicPage()
-@Component({selector: 'page-basic', templateUrl: 'basic.html',})
+    @IonicPage() @Component({selector: 'page-basic', templateUrl: 'basic.html',})
 export class BasicPage
 {
-  firstName: string = null;
-  lastName: string  = null;
-  birthday: string  = null;
-  gender: string    = null;
-  phone: string     = null;
-  fake              = true;
+  firstName: string    = null;
+  lastName: string     = null;
+  kid_birthday: string = null;
+  mom_birthday: string = null;
+  gender: string       = null;
+  phone: string        = null;
+  fake                 = true;
 
   constructor(
       public alertCtrl: AlertController,
@@ -35,7 +35,8 @@ export class BasicPage
   {
     // update db
     this.userServiceProvider.updateUserInfo(
-        this.firstName, this.lastName, this.birthday, this.gender, this.phone,
+        this.firstName, this.lastName, this.mom_birthday, this.kid_birthday,
+        this.gender, this.phone,
         () => {
           console.log('User info updated.');
         },
@@ -48,11 +49,12 @@ export class BasicPage
   {
     this.userServiceProvider.loadUserData(
         () => {
-          this.firstName = this.userServiceProvider.getFirstName();
-          this.lastName  = this.userServiceProvider.getLastName();
-          this.birthday  = this.userServiceProvider.getBirthday();
-          this.gender    = this.userServiceProvider.getGender();
-          this.phone     = this.userServiceProvider.getPhone();
+          this.firstName    = this.userServiceProvider.getFirstName();
+          this.lastName     = this.userServiceProvider.getLastName();
+          this.mom_birthday = this.userServiceProvider.getBirthday();
+          this.kid_birthday = this.userServiceProvider.getKidBirthday();
+          this.gender       = this.userServiceProvider.getGender();
+          this.phone        = this.userServiceProvider.getPhone();
         },
         (err) => {
           console.error('Failed to load user data: ' + err);
@@ -62,7 +64,8 @@ export class BasicPage
   doneClicked(event)
   {
     this.userServiceProvider.updateUserInfo(
-        this.firstName, this.lastName, this.birthday, this.gender, this.phone,
+        this.firstName, this.lastName, this.mom_birthday, this.kid_birthday, this.gender,
+        this.phone,
         () => {
           this.navCtrl.push(WelcomePage);
         },
