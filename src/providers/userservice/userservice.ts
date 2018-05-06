@@ -18,12 +18,12 @@ export class UserserviceProvider
   imageUrl: string;
 
   // Info from users.
-  firstName: string = null;
-  lastName: string  = null;
-  birthday: string  = null;
-  kid_birthday: string  = null;
-  gender: string    = null;
-  phone: string     = null;
+  firstName: string    = null;
+  lastName: string     = null;
+  birthday: string     = null;
+  kid_birthday: string = null;
+  gender: string       = null;
+  phone: string        = null;
 
   isLoggedIn: boolean = false;
 
@@ -127,12 +127,12 @@ export class UserserviceProvider
     var ref = firebase.database().ref('userData/').child(this.uid);
     ref.once('value')
         .then(snapshot => {
-          this.firstName = snapshot.val().firstName;
-          this.lastName  = snapshot.val().lastName;
-          this.gender    = snapshot.val().gender;
-          this.birthday  = snapshot.val().birthday;
-          this.kid_birthday  = snapshot.val().kid_birthday;
-          this.phone     = snapshot.val().phone;
+          this.firstName    = snapshot.val().firstName;
+          this.lastName     = snapshot.val().lastName;
+          this.gender       = snapshot.val().gender;
+          this.birthday     = snapshot.val().birthday;
+          this.kid_birthday = snapshot.val().kid_birthday;
+          this.phone        = snapshot.val().phone;
           success();
         })
         .catch(err => {
@@ -140,7 +140,8 @@ export class UserserviceProvider
         });
   }
 
-  updateUserInfo(firstName, lastName, birthday, kid_birthday, gender, phone, success, fail)
+  updateUserInfo(
+      firstName, lastName, birthday, kid_birthday, gender, phone, success, fail)
   {
     if (!this.initialized())
     {
@@ -160,12 +161,12 @@ export class UserserviceProvider
         })
         .then(res => {
           console.log('=== Wrote user data');
-          this.firstName = firstName;
-          this.lastName  = lastName;
-          this.birthday  = birthday;
-          this.kid_birthday  = kid_birthday;
-          this.gender    = gender;
-          this.phone     = phone;
+          this.firstName    = firstName;
+          this.lastName     = lastName;
+          this.birthday     = birthday;
+          this.kid_birthday = kid_birthday;
+          this.gender       = gender;
+          this.phone        = phone;
           success();
         })
         .catch(err => {
@@ -174,6 +175,10 @@ export class UserserviceProvider
         });
   }
 
+  getUserId()
+  {
+    return this.uid;
+  }
   getFirstName()
   {
     return this.firstName;
@@ -278,15 +283,15 @@ export class UserserviceProvider
   logout()
   {
     return this.fireAuth.auth.signOut().then(res => {
-      this.uid        = null;
-      this.email      = null;
-      this.firstName  = null;
-      this.lastName   = null;
-      this.birthday   = null;
-      this.kid_birthday   = null;
-      this.gender     = null;
-      this.phone      = null;
-      this.isLoggedIn = false;
+      this.uid          = null;
+      this.email        = null;
+      this.firstName    = null;
+      this.lastName     = null;
+      this.birthday     = null;
+      this.kid_birthday = null;
+      this.gender       = null;
+      this.phone        = null;
+      this.isLoggedIn   = false;
     });
   }
 
@@ -326,10 +331,11 @@ export class UserserviceProvider
   }
 
   // Takes per-offer handler and trigger it whenever new offer appears.
-  onOfferChanged(handler) {
+  onOfferChanged(handler)
+  {
     var ref = firebase.database().ref('offers/');
     ref.on('value', itemSnapshot => {
-      itemSnapshot.forEach( itemSnap => {
+      itemSnapshot.forEach(itemSnap => {
         handler(itemSnap.key, itemSnap.val());
         return false;
       });

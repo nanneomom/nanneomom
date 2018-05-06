@@ -10,6 +10,7 @@ import firebase from 'firebase';
 import {IonicApp, IonicErrorHandler, IonicModule} from 'ionic-angular';
 
 import {BasicPage} from '../pages/basic/basic'
+import {ChatPage} from '../pages/chat/chat'
 import {HomePage} from '../pages/home/home';
 import {LoginPage} from '../pages/login/login'
 import {MainTabsPage} from '../pages/main-tabs/main-tabs'
@@ -17,10 +18,10 @@ import {MapPage} from '../pages/map/map'
 import {OfferPage} from '../pages/offer/offer'
 import {SearchPage} from '../pages/search/search'
 import {WelcomePage} from '../pages/welcome/welcome'
+import {ChatServiceProvider} from '../providers/chat-service/chat-service';
 import {UserserviceProvider} from '../providers/userservice/userservice';
 
 import {MyApp} from './app.component';
-import { ChatServiceProvider } from '../providers/chat-service/chat-service';
 
 export const environment = {
   production: false,
@@ -46,6 +47,7 @@ firebase.initializeApp(environment.firebase);
     MapPage,
     OfferPage,
     SearchPage,
+    ChatPage,
     MainTabsPage,
   ],
   imports: [
@@ -66,7 +68,9 @@ firebase.initializeApp(environment.firebase);
     MapPage,
     OfferPage,
     SearchPage,
+    ChatPage,
     MainTabsPage,
+    ChatPage,
   ],
   providers: [
     StatusBar,

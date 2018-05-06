@@ -4,6 +4,7 @@ import { BasicPage } from '../../pages/basic/basic'
 import { MapPage } from '../../pages/map/map'
 import { OfferPage } from '../../pages/offer/offer'
 import { SearchPage } from '../../pages/search/search'
+import { ChatPage } from '../../pages/chat/chat'
 
 /**
  * Generated class for the MainTabsPage page.
@@ -22,5 +23,5 @@ export class MainTabsPage {
   mapPage = MapPage;
   offerPage = OfferPage;
   searchPage = SearchPage;
-
+  chatPage = ChatPage;
 }

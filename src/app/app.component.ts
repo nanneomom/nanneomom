@@ -9,6 +9,7 @@ import {HomePage} from '../pages/home/home';
 import {LoginPage} from '../pages/login/login';
 import {WelcomePage} from '../pages/welcome/welcome';
 import {UserserviceProvider} from '../providers/userservice/userservice'
+import {ChatServiceProvider} from '../providers/chat-service/chat-service'
 
     @Component({templateUrl: 'app.html'})
 export class MyApp
@@ -17,7 +18,7 @@ export class MyApp
 
   constructor(
       platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen,
-      public userServiceProvider: UserserviceProvider)
+      public userServiceProvider: UserserviceProvider, public chatServiceProvider: ChatServiceProvider)
   {
     platform.ready().then(() => {
       var fake: boolean = true;

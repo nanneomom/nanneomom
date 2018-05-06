@@ -15,4 +15,9 @@
 
 <ion-content padding>
 
+  <ion-item *ngFor="let room of chat_rooms">
+    <button ion-button full (click)="openChat(room.other_user_id)"> {{room.other_user_name}}</button>
+  </ion-item>
+
+
 </ion-content>
