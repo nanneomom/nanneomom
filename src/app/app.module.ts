@@ -20,6 +20,7 @@ import {WelcomePage} from '../pages/welcome/welcome'
 import {UserserviceProvider} from '../providers/userservice/userservice';
 
 import {MyApp} from './app.component';
+import { ChatServiceProvider } from '../providers/chat-service/chat-service';
 
 export const environment = {
   production: false,
@@ -73,6 +74,7 @@ firebase.initializeApp(environment.firebase);
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     UserserviceProvider,
+    ChatServiceProvider,
   ]
 })
 export class AppModule
