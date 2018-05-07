@@ -18,7 +18,7 @@ export class SearchPage
   public items: Array<any> = [];
   db_ref                   = null;
 
-  constructor(    
+  constructor(
       public navCtrl: NavController, public navParams: NavParams,
       public userServiceProvider: UserserviceProvider)
   {
@@ -27,8 +27,13 @@ export class SearchPage
   ionViewDidLoad()
   {
     console.log('ionViewDidLoad SearchPage');
-    this.db_ref = this.userServiceProvider.onOfferChanged((key, value) => {
-      this.items.push(value);
+    this.db_ref = firebase.database().ref('offers/');
+    this.db_ref.on('value', itemSnapshot => {
+      this.items = [];
+      itemSnapshot.forEach(itemSnap => {
+        this.items.push(itemSnap.val());
+        return false;
+      });
     });
   }
 }

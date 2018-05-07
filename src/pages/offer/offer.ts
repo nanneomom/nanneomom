@@ -40,7 +40,6 @@ export class OfferPage
       this.map.one(GoogleMapsEvent.MAP_READY).then(() => {
         console.log('map ready!!!');
         this.mapInitialized = true;
-        this.tryMoveCamera();
 
         this.map.on(GoogleMapsEvent.CAMERA_MOVE).subscribe((camera) => {
           var lat = camera[0].target.lat;
@@ -67,11 +66,11 @@ export class OfferPage
     });
   }
 
-  tryMoveCamera()
+  tryMoveCamera(lat, lng)
   {
     if (this.mapInitialized)
     {
-      var latlng = {lat: 34.0522, lng: -118.2437};
+      var latlng = {lat: lat, lng: lng};
       this.map.animateCamera({'target': latlng, 'zoom': 8, 'duration': 1000});
     }
   }
@@ -79,29 +78,34 @@ export class OfferPage
   ionViewDidEnter()
   {
     console.log('ionViewDidEnter OfferPage');
-    this.tryMoveCamera();
 
     this.userServiceProvider.getOffering(
         result => {
           if (result == null)
           {
             this.offering = false;
+            // TODO: Use user location rather than LA.
+            var lat = 34.0522;
+            var lng = -118.2437;
+            this.tryMoveCamera(lat, lng);
           }
           else
           {
             this.offering = true;
             this.location = result.location;
+            this.tryMoveCamera(result.lat, result.lng);
           }
         },
         err => {
-          console.log('offer error: ' + err);
+          alert('error loading offer: '  + err)
         });
   }
 
   offerChanged()
   {
-    if (!this.mapInitialized)
-      return;
+    if (!this.mapInitialized) {
+      alert('Error: map not initialized!!');
+    }
 
     var target = this.map.getCameraTarget();
     console.log('offer location: ' + target.lat + ', ' + target.lng);
