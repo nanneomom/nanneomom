@@ -11,6 +11,7 @@ import {IonicApp, IonicErrorHandler, IonicModule} from 'ionic-angular';
 
 import {BasicPage} from '../pages/basic/basic'
 import {ChatPage} from '../pages/chat/chat'
+import {ChatroomPage} from '../pages/chatroom/chatroom'
 import {HomePage} from '../pages/home/home';
 import {LoginPage} from '../pages/login/login'
 import {MainTabsPage} from '../pages/main-tabs/main-tabs'
@@ -48,6 +49,7 @@ firebase.initializeApp(environment.firebase);
     OfferPage,
     SearchPage,
     ChatPage,
+    ChatroomPage,
     MainTabsPage,
   ],
   imports: [
@@ -71,6 +73,7 @@ firebase.initializeApp(environment.firebase);
     ChatPage,
     MainTabsPage,
     ChatPage,
+    ChatroomPage,
   ],
   providers: [
     StatusBar,

@@ -16,15 +16,16 @@
 <ion-content padding>
 
   <ion-item *ngFor="let msg of messages">
-    {{msg.message}}
+    {{msg.name}}: {{msg.message}}
   </ion-item>
 
 </ion-content>
 
-<ion-footer no-border [style.height]="55px">
-  <textarea #chat_input placeholder="Text Input" [(ngModel)]="editorMsg" (keyup.enter)="sendMsg()" (focusin)="onFocus()">
-  </textarea>
-  <button ion-button clear icon-only item-right (click)="sendMsg()">
-    <ion-icon name="ios-send" ios="ios-send" md="md-send"></ion-icon>
-  </button>
+<ion-footer>
+  <ion-item>
+    <ion-textarea [(ngModel)]="editorMsg" placeholder="Enter a message"></ion-textarea>
+    <button ion-button clear icon-only item-right (click)="sendMsg()">
+      <ion-icon name="send"></ion-icon>
+    </button>
+  </ion-item>
 </ion-footer>

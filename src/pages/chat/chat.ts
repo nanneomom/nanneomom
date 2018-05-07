@@ -5,6 +5,7 @@ import {IonicPage, NavController, NavParams} from 'ionic-angular';
 import {ChatServiceProvider} from '../../providers/chat-service/chat-service';
 import {UserserviceProvider} from '../../providers/userservice/userservice'
 
+import {ChatroomPage} from '../../pages/chatroom/chatroom'
     /**
  * Generated class for the ChatPage page.
  *
@@ -31,13 +32,9 @@ export class ChatPage
     var uid = this.userServiceProvider.getUserId();
 
     var ref = firebase.database().ref('chatUsers/' + uid);
-    ref.on('value', itemSnapshot => {
-      itemSnapshot.forEach(itemSnap => {
-        console.log('key: ' + itemSnap.key);
-        console.log('val: ' + JSON.stringify(itemSnap.val()));
-        this.chat_rooms.push(itemSnap.val());
+    ref.on('child_added', data => {
+        this.chat_rooms.push(data.val());
         return false;
-      });
     });
   }
 
@@ -50,5 +47,6 @@ export class ChatPage
 
   openChat(otherUserId) {
     console.log('open chat: ' + otherUserId);
+    this.navCtrl.push(ChatroomPage, {otherUserId: otherUserId});
   }
 }
