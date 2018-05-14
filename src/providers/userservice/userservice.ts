@@ -151,7 +151,6 @@ export class UserserviceProvider
     var ref = firebase.database().ref('userData/').child(uid);
     ref.once('value')
         .then(snapshot => {
-          this.firstName = snapshot.val().firstName;
           success(snapshot.val());
         })
         .catch(err => {

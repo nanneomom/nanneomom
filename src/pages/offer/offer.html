@@ -17,12 +17,12 @@
 
   <ion-item>
     <ion-label>I'm offering</ion-label>
-    <ion-toggle [(ngModel)]="offering" (ionChange)="offerChanged()"></ion-toggle>
+    <ion-toggle [(ngModel)]="offering" [disabled]="isOfferDisabled" (ionChange)="offerChanged()"></ion-toggle>
   </ion-item>
 
   <ion-item>
     <ion-label>Current Location</ion-label>
-    <ion-select [(ngModel)]="location" (ionChange)="offerChanged()" interface="popover">
+    <ion-select [(ngModel)]="location" [disabled]="isLocationDisabled" (ionChange)="offerChanged()" interface="popover">
       <ion-option value="home">Home</ion-option>
       <ion-option value="library">Library</ion-option>
       <ion-option value="indoor playground">Indoor Playground</ion-option>

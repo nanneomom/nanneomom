@@ -21,8 +21,13 @@ export class OfferPage
   map: GoogleMap;
   mapInitialized: boolean = false;
 
-  offering: boolean = false;
-  location: string  = 'home';
+  isOfferDisabled: boolean = true;
+  isLocationDisabled: boolean = true;
+
+  offering: boolean = null;
+  location: string  = null;
+  lat: number       = null;
+  lng: number       = null;
 
   constructor(
       public platform: Platform, public navCtrl: NavController,
@@ -39,74 +44,52 @@ export class OfferPage
       this.map = GoogleMaps.create('map_canvas');
       this.map.one(GoogleMapsEvent.MAP_READY).then(() => {
         console.log('map ready!!!');
-        this.mapInitialized = true;
-
         this.map.on(GoogleMapsEvent.CAMERA_MOVE).subscribe((camera) => {
           var lat = camera[0].target.lat;
           var lng = camera[0].target.lng;
           console.log('current loc: lat=' + lat + ', lng=' + lng);
         });
-
-
-        /*
-        var options = {enableHighAccuracy: false, timeout: 3000, maximumAge: 0};
-        this.geolocation.getCurrentPosition(options).then(
-            (position) => {
-              var latlng = {
-                lat: position.coords.latitude,
-                lng: position.coords.longitude,
-              };
-              this.map.setCameraTarget(latlng);
-            },
-            (err) => {
-              console.log('Error getting location: ' + err.message);
-            });
-            */
+        this.mapInitialized = true;
+        this.tryLoadData();
       });
     });
   }
 
-  tryMoveCamera(lat, lng)
-  {
-    if (this.mapInitialized)
-    {
-      var latlng = {lat: lat, lng: lng};
-      this.map.animateCamera({'target': latlng, 'zoom': 8, 'duration': 1000});
-    }
-  }
-
   ionViewDidEnter()
   {
-    console.log('ionViewDidEnter OfferPage');
+  }
 
-    this.userServiceProvider.getOffering(
-        result => {
-          if (result == null)
-          {
-            this.offering = false;
-            // TODO: Use user location rather than LA.
-            var lat = 34.0522;
-            var lng = -118.2437;
-            this.tryMoveCamera(lat, lng);
-          }
-          else
-          {
-            this.offering = true;
-            this.location = result.location;
-            this.tryMoveCamera(result.lat, result.lng);
-          }
-        },
-        err => {
-          alert('error loading offer: '  + err)
-        });
+  tryLoadData()
+  {
+    this.userServiceProvider.getOffering(result => {
+      if (result == null)
+      {
+        this.offering = false;
+        // TODO: Use user location rather than LA.
+        this.lat = 34.0522;
+        this.lng = -118.2437;
+      }
+      else
+      {
+        this.offering = true;
+        this.location = result.location;
+        this.lat      = result.lat;
+        this.lng      = result.lng;
+      }
+      this.tryMoveCamera(this.lat, this.lng);
+    }, err => {alert('error loading offer: ' + err)});
+  }
+
+  tryMoveCamera(lat, lng)
+  {
+    var latlng = {lat: lat, lng: lng};
+    this.map.animateCamera({'target': latlng, 'zoom': 8, 'duration': 1000});
+    this.isOfferDisabled = false;
+    this.isLocationDisabled = false;
   }
 
   offerChanged()
   {
-    if (!this.mapInitialized) {
-      alert('Error: map not initialized!!');
-    }
-
     var target = this.map.getCameraTarget();
     console.log('offer location: ' + target.lat + ', ' + target.lng);
 
