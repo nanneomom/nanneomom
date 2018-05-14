@@ -1,10 +1,8 @@
 import {Component} from '@angular/core';
 import firebase from 'firebase';
 import {IonicPage, NavController, NavParams} from 'ionic-angular';
-
 import {ChatServiceProvider} from '../../providers/chat-service/chat-service';
 import {UserserviceProvider} from '../../providers/userservice/userservice'
-
 import {ChatroomPage} from '../../pages/chatroom/chatroom'
     /**
  * Generated class for the ChatPage page.
@@ -13,10 +11,11 @@ import {ChatroomPage} from '../../pages/chatroom/chatroom'
  * Ionic pages and navigation.
  */
 
-    @IonicPage() @Component({selector: 'page-chat', templateUrl: 'chat.html',})
+@IonicPage() @Component({selector: 'page-chat', templateUrl: 'chat.html',})
+
 export class ChatPage
 {
-  public chat_rooms: Array<any> = [];
+  public chat_rooms: Array<any> =   [];
   db_ref                        = null;
 
   constructor(
@@ -30,11 +29,22 @@ export class ChatPage
   {
     console.log('ionViewDidLoad ChatPage');
     var uid = this.userServiceProvider.getUserId();
-
     var ref = firebase.database().ref('chatUsers/' + uid);
     ref.on('child_added', data => {
-        this.chat_rooms.push(data.val());
-        return false;
+      var otherUserId = data.val().other_user_id;
+      this.userServiceProvider.lookupUserData(
+          otherUserId,
+          userData => {
+            this.chat_rooms.push({
+              other_user_id: otherUserId,
+              other_user_name: userData.firstName,
+            });
+          },
+          err => {
+            alert(err);
+          });
+
+      return false;
     });
   }
 
@@ -44,7 +54,8 @@ export class ChatPage
     var name = this.userServiceProvider.getFirstName();
   }
 
-  openChat(otherUserId) {
+  openChat(otherUserId)
+  {
     console.log('open chat: ' + otherUserId);
     this.navCtrl.push(ChatroomPage, {otherUserId: otherUserId});
   }

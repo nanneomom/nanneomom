@@ -140,6 +140,25 @@ export class UserserviceProvider
         });
   }
 
+  lookupUserData(uid, success, fail)
+  {
+    if (!this.initialized())
+    {
+      fail('UID is invalid')
+      return;
+    }
+
+    var ref = firebase.database().ref('userData/').child(uid);
+    ref.once('value')
+        .then(snapshot => {
+          this.firstName = snapshot.val().firstName;
+          success(snapshot.val());
+        })
+        .catch(err => {
+          fail(err);
+        });
+  }
+
   updateUserInfo(
       firstName, lastName, birthday, kid_birthday, gender, phone, success, fail)
   {
