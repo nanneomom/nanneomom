@@ -18,9 +18,7 @@ export class ChatroomPage
   editorMsg: string    = '';
   messages: Array<any> = [];
   db_ref               = null;
-  roomId               = null;
-  uid                  = null;
-  userName             = null;
+  otherUserId          = null;
 
   constructor(
       public navCtrl: NavController, public navParams: NavParams,
@@ -32,23 +30,11 @@ export class ChatroomPage
   ionViewDidLoad()
   {
     console.log('ionViewDidLoad ChatroomPage');
-    var otherUserId = this.navParams.get('otherUserId');
-    console.log('talking with uid=' + otherUserId);
+    this.otherUserId = this.navParams.get('otherUserId');
+    console.log('talking with uid=' + this.otherUserId);
 
-    this.uid      = this.userServiceProvider.getUserId();
-    this.userName = this.userServiceProvider.getFirstName() + ' ' +
-        this.userServiceProvider.getLastName();
-
-    if (this.uid > otherUserId)
-    {
-      this.roomId = this.uid + '_to_' + otherUserId;
-    }
-    else
-    {
-      this.roomId = otherUserId + '_to_' + this.uid;
-    }
-
-    this.db_ref = firebase.database().ref('chatRooms/' + this.roomId);
+    this.db_ref = firebase.database().ref(
+        'chatRooms/' + this.chatServiceProvider.getRoomId(this.otherUserId));
     this.db_ref.on('child_added', data => {
       this.messages.push(data.val());
     });
@@ -57,8 +43,7 @@ export class ChatroomPage
   sendMsg()
   {
     console.log('sending: ' + this.editorMsg);
-    this.chatServiceProvider.writeChat(
-        this.roomId, this.uid, this.userName, this.editorMsg);
+    this.chatServiceProvider.writeChat(this.otherUserId, this.editorMsg);
     this.editorMsg = '';
   }
 }

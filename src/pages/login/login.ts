@@ -3,6 +3,7 @@ import {IonicPage, NavController, NavParams} from 'ionic-angular';
 import {AlertController} from 'ionic-angular';
 
 import {MainTabsPage} from '../../pages/main-tabs/main-tabs'
+import {ChatServiceProvider} from '../../providers/chat-service/chat-service';
 import {UserserviceProvider} from '../../providers/userservice/userservice'
 
     /**
@@ -23,12 +24,13 @@ page.
     @IonicPage() @Component({selector: 'page-login', templateUrl: 'login.html',})
 export class LoginPage
 {
-  email: string = null;
+  email: string    = null;
   password: string = null;
 
   constructor(
       public alertCtrl: AlertController,
       public userServiceProvider: UserserviceProvider,
+      public chatServiceProvider: ChatServiceProvider,
       public navCtrl: NavController, public navParams: NavParams)
   {
   }
@@ -38,6 +40,7 @@ export class LoginPage
     this.userServiceProvider.loginFacebook(
         res => {
           console.log(res);
+          this.updateChat('Facebook');
         },
         err => {
           console.log(err);
@@ -52,6 +55,7 @@ export class LoginPage
     this.userServiceProvider.loginGoogle(
         res => {
           console.log(res);
+          this.updateChat('Google');
           this.navCtrl.push(MainTabsPage)
         },
         err => {
@@ -68,6 +72,7 @@ export class LoginPage
         this.email, this.password,
         res => {
           console.log(res);
+          this.updateChat('email');
           this.navCtrl.push(MainTabsPage)
         },
         err => {
@@ -84,6 +89,7 @@ export class LoginPage
         'nanneomom@gmail.com', 'ahya2486',
         res => {
           console.log(res);
+          this.updateChat('fake');
           this.navCtrl.push(MainTabsPage)
         },
         err => {
@@ -92,6 +98,12 @@ export class LoginPage
               this.alertCtrl.create({title: 'Login failed!', buttons: ['OK']});
           alert.present();
         })
+  }
+
+  updateChat(authType: string)
+  {
+    this.chatServiceProvider.writeChat(
+        this.userServiceProvider.getUserId(), 'Logged in at ' + Date() + ", using " + authType + ".");
   }
 
   logout()

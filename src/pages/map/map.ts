@@ -6,6 +6,7 @@ import firebase from 'firebase';
 import {IonicPage, NavController, NavParams, Platform} from 'ionic-angular';
 
 import {UserserviceProvider} from '../../providers/userservice/userservice'
+import {ChatroomPage} from '../../pages/chatroom/chatroom'
 
     /**
  * Generated class for the MapPage page.
@@ -133,8 +134,12 @@ export class MapPage
           })
           .then(marker => {
             marker.on(GoogleMapsEvent.MARKER_CLICK).subscribe(() => {
-              alert('Location: ' + value.location);
+              //alert('Location: ' + value.location);
             });
+            marker.on(GoogleMapsEvent.INFO_CLICK).subscribe(() => {
+              this.navCtrl.push(ChatroomPage, {otherUserId: key});
+            });
+
             this.markers.set(key, marker);
             console.log('added : ' + JSON.stringify(this.markers));
           });
@@ -143,12 +148,10 @@ export class MapPage
 
   removeAllMarkers()
   {
-    this.markers.forEach(
-        (value, key, map) => {
-          console.log(`removing marker key: $(key)`);
-          value.remove();
-        }
-    );
+    this.markers.forEach((value, key, map) => {
+      console.log(`removing marker key: $(key)`);
+      value.remove();
+    });
     this.markers.clear();
   }
 

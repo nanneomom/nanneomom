@@ -42,7 +42,6 @@ export class ChatPage
   {
     var uid  = this.userServiceProvider.getUserId();
     var name = this.userServiceProvider.getFirstName();
-    this.chatServiceProvider.updateSelfChat(uid, name);
   }
 
   openChat(otherUserId) {
