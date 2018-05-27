@@ -40,6 +40,7 @@ export class ChatroomPage
     this.otherUserId = this.navParams.get('otherUserId');
     console.log('talking with uid=' + this.otherUserId);
 
+    this.myUserId = this.userServiceProvider.getUserId();
     this.userServiceProvider.lookupUserData(
         this.otherUserId, userData => {this.otherUserName = userData.firstName},
         err => {
@@ -58,6 +59,10 @@ export class ChatroomPage
     });
   }
 
+  ionViewDidEnter()
+  {
+    this.scrollToBottom();
+  }
 
   onFocus()
   {
