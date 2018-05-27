@@ -7,7 +7,7 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>chatroom</ion-title>
+    <ion-title>{{otherUserName}}</ion-title>
   </ion-navbar>
 
 </ion-header>
@@ -15,17 +15,29 @@
 
 <ion-content padding>
 
-  <ion-item *ngFor="let msg of messages">
-    {{msg.name}}: {{msg.message}}
-  </ion-item>
+  <div class="message-wrap">
+    <div *ngFor="let msg of messages" class="message">
+      <div class="msg-detail">
+        <div class="msg-info">
+          <p>
+            {{msg.name}}&nbsp;&nbsp;&nbsp;{{msg.time}}</p>
+        </div>
+        <div class="msg-content">
+          <p class="line-breaker ">{{msg.message}}</p>
+        </div>
+      </div>
+    </div>
+  </div>
 
 </ion-content>
 
-<ion-footer>
-  <ion-item>
-    <ion-textarea [(ngModel)]="editorMsg" placeholder="Enter a message"></ion-textarea>
+<ion-footer no-border [style.height]="'55px'">
+  <div class="input-wrap">
+    <textarea #chat_input placeholder="Enter a message" [(ngModel)]="editorMsg" (keyup.enter)="sendMsg()" (focusin)="onFocus()">
+    </textarea>
+
     <button ion-button clear icon-only item-right (click)="sendMsg()">
       <ion-icon name="send"></ion-icon>
     </button>
-  </ion-item>
+  </div>
 </ion-footer>
