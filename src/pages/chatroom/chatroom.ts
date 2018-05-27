@@ -23,6 +23,7 @@ export class ChatroomPage
   editorMsg: string    = '';
   messages: Array<any> = [];
   db_ref               = null;
+  myUserId             = null;
   otherUserId          = null;
   otherUserName        = null;
 
@@ -50,6 +51,7 @@ export class ChatroomPage
     this.db_ref.on('child_added', data => {
       this.messages.push({
         time: data.key,
+        user: data.val().user,
         name: data.val().name,
         message: data.val().message,
       });

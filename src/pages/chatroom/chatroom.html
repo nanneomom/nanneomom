@@ -16,13 +16,14 @@
 <ion-content padding>
 
   <div class="message-wrap">
-    <div *ngFor="let msg of messages" class="message">
+    <div *ngFor="let msg of messages" class="message" [class.left]=" msg.user === otherUserId" [class.right]=" msg.user === myUserId">
       <div class="msg-detail">
         <div class="msg-info">
-          <p>
-            {{msg.name}}&nbsp;&nbsp;&nbsp;{{msg.time}}</p>
+          <p> {{msg.name}}&nbsp;&nbsp;&nbsp;{{msg.time}}</p>
         </div>
+
         <div class="msg-content">
+          <span class="triangle"></span>
           <p class="line-breaker ">{{msg.message}}</p>
         </div>
       </div>
