@@ -18,8 +18,8 @@
     <div *ngFor="let msg of messages" class="message" [class.left]=" msg.user === otherUserId" [class.right]=" msg.user === myUserId">
       <!--
       <ion-icon name="person"></ion-icon>
-      <img class="user-img" [src]="msg.userAvatar" alt="" src="">
       -->
+      <img class="user-img" [src]="msg.userAvatar" alt="" src="">
       <div class="msg-detail">
         <div class="msg-info">
           <p> {{msg.name}}&nbsp;&nbsp;&nbsp;{{msg.time}}</p>

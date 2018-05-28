@@ -1,4 +1,5 @@
 import {Component, ElementRef, ViewChild} from '@angular/core';
+import distanceInWordsToNow from 'date-fns/distance_in_words_to_now';
 import firebase from 'firebase';
 import {IonicPage, NavController, NavParams} from 'ionic-angular';
 import {Content, Events} from 'ionic-angular';
@@ -50,9 +51,21 @@ export class ChatroomPage
     this.db_ref = firebase.database().ref(
         'chatRooms/' + this.chatServiceProvider.getRoomId(this.otherUserId));
     this.db_ref.on('child_added', data => {
+      var avatar = null;
+      if (data.val().user == this.myUserId)
+      {
+        avatar = './assets/imgs/user.jpg';
+      }
+      else
+      {
+        avatar = './assets/imgs/to-user.jpg';
+      }
+      var time_str = distanceInWordsToNow(data.key);
+      // distanceInWordsToNow(new Date(data.key, {addSuffix: true}));
       this.messages.push({
-        time: data.key,
+        time: time_str,
         user: data.val().user,
+        userAvatar: avatar,
         name: data.val().name,
         message: data.val().message,
       });
