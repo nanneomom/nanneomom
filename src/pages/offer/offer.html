@@ -21,14 +21,12 @@
   </ion-item>
 
   <ion-item>
-    <ion-label>Current Location</ion-label>
+    <ion-label>At</ion-label>
     <ion-select [(ngModel)]="location" [disabled]="isLocationDisabled" (ionChange)="offerChanged()" interface="popover">
-      <ion-option value="home">Home</ion-option>
-      <ion-option value="library">Library</ion-option>
-      <ion-option value="indoor playground">Indoor Playground</ion-option>
+      <ion-option value="mine">My Home</ion-option>
+      <ion-option value="yours">Your Home</ion-option>
+      <ion-option value="indoor">Indoor Playgrounds</ion-option>
     </ion-select>
   </ion-item>
-
-  <div id="map_canvas"> </div>
 
 </ion-content>

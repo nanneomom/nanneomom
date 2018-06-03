@@ -313,15 +313,13 @@ export class UserserviceProvider
     });
   }
 
-  setOffering(location: string, lat: number, lng: number): Promise<any>
+  setOffering(location: string): Promise<any>
   {
     return firebase.database().ref('offers/' + this.uid).set({
       firstName: this.firstName,
       lastName: this.lastName,
       phone: this.phone,
       location: location,
-      lat: lat,
-      lng: lng,
     });
   }
 
