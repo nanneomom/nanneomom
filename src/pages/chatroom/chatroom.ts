@@ -60,8 +60,7 @@ export class ChatroomPage
       {
         avatar = './assets/imgs/to-user.jpg';
       }
-      var time_str = distanceInWordsToNow(data.key);
-      // distanceInWordsToNow(new Date(data.key, {addSuffix: true}));
+      var time_str = distanceInWordsToNow(parseInt(data.key));
       this.messages.push({
         time: time_str,
         user: data.val().user,
