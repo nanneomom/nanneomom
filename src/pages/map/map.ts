@@ -5,19 +5,22 @@ import {GoogleMap, GoogleMaps, GoogleMapsEvent} from '@ionic-native/google-maps'
 import firebase from 'firebase';
 import {IonicPage, NavController, NavParams, Platform} from 'ionic-angular';
 
-import {UserserviceProvider} from '../../providers/userservice/userservice'
-import {ChatroomPage} from '../../pages/chatroom/chatroom'
+import {ChatroomPage} from '../../pages/chatroom/chatroom';
+import {UserserviceProvider} from '../../providers/userservice/userservice';
 
-    /**
+/**
  * Generated class for the MapPage page.
  *
  * See https://ionicframework.com/docs/components/#navigation for more info on
  * Ionic pages and navigation.
  */
 
-    //declare var google: any;
-
-    @IonicPage() @Component({selector: 'page-map', templateUrl: 'map.html', providers: [GoogleMaps],})
+@IonicPage()
+@Component({
+  selector: 'page-map',
+  templateUrl: 'map.html',
+  providers: [GoogleMaps],
+})
 
 
 export class MapPage
@@ -133,9 +136,11 @@ export class MapPage
             position: {lat: value.lat, lng: value.lng}
           })
           .then(marker => {
-            marker.on(GoogleMapsEvent.MARKER_CLICK).subscribe(() => {
-              //alert('Location: ' + value.location);
-            });
+            marker.on(GoogleMapsEvent.MARKER_CLICK)
+                .subscribe(
+                    () => {
+                        // alert('Location: ' + value.location);
+                    });
             marker.on(GoogleMapsEvent.INFO_CLICK).subscribe(() => {
               this.navCtrl.push(ChatroomPage, {otherUserId: key});
             });

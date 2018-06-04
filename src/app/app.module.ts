@@ -8,6 +8,7 @@ import {AngularFireModule} from 'angularfire2';
 import {AngularFireAuthModule} from 'angularfire2/auth';
 import firebase from 'firebase';
 import {IonicApp, IonicErrorHandler, IonicModule} from 'ionic-angular';
+import {GooglePlacesAutocompleteComponentModule} from 'ionic2-google-places-autocomplete';
 
 import {BasicPage} from '../pages/basic/basic'
 import {ChatPage} from '../pages/chat/chat'
@@ -59,6 +60,7 @@ firebase.initializeApp(environment.firebase);
     AngularFireAuthModule,  // imports firebase/auth, only needed for auth
                             // features,
     HttpClientModule,
+    GooglePlacesAutocompleteComponentModule,
   ],
   bootstrap: [IonicApp],
   entryComponents: [
