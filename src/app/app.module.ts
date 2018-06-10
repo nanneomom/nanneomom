@@ -10,16 +10,18 @@ import firebase from 'firebase';
 import {IonicApp, IonicErrorHandler, IonicModule} from 'ionic-angular';
 import {GooglePlacesAutocompleteComponentModule} from 'ionic2-google-places-autocomplete';
 
-import {BasicPage} from '../pages/basic/basic'
-import {ChatPage} from '../pages/chat/chat'
-import {ChatroomPage} from '../pages/chatroom/chatroom'
+import {BasicPage} from '../pages/basic/basic';
+import {ChatPage} from '../pages/chat/chat';
+import {ChatroomPage} from '../pages/chatroom/chatroom';
 import {HomePage} from '../pages/home/home';
-import {LoginPage} from '../pages/login/login'
-import {MainTabsPage} from '../pages/main-tabs/main-tabs'
-import {MapPage} from '../pages/map/map'
-import {OfferPage} from '../pages/offer/offer'
-import {SearchPage} from '../pages/search/search'
-import {WelcomePage} from '../pages/welcome/welcome'
+import {LoginPage} from '../pages/login/login';
+import {MainTabsPage} from '../pages/main-tabs/main-tabs';
+import {MapPage} from '../pages/map/map';
+import {OfferNewPage} from '../pages/offer-new/offer-new';
+import {OfferPage} from '../pages/offer/offer';
+import {SearchPage} from '../pages/search/search';
+import {SelectAddressPage} from '../pages/select-address/select-address';
+import {WelcomePage} from '../pages/welcome/welcome';
 import {ChatServiceProvider} from '../providers/chat-service/chat-service';
 import {UserserviceProvider} from '../providers/userservice/userservice';
 
@@ -48,7 +50,9 @@ firebase.initializeApp(environment.firebase);
     WelcomePage,
     MapPage,
     OfferPage,
+    OfferNewPage,
     SearchPage,
+    SelectAddressPage,
     ChatPage,
     ChatroomPage,
     MainTabsPage,
@@ -71,7 +75,9 @@ firebase.initializeApp(environment.firebase);
     WelcomePage,
     MapPage,
     OfferPage,
+    OfferNewPage,
     SearchPage,
+    SelectAddressPage,
     ChatPage,
     MainTabsPage,
     ChatPage,

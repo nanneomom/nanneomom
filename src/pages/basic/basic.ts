@@ -1,7 +1,9 @@
 import {Component} from '@angular/core';
-import {IonicPage, NavController, NavParams} from 'ionic-angular';
+import {IonicPage, NavController, NavParams, Select} from 'ionic-angular';
 import {AlertController} from 'ionic-angular';
+import {ModalController} from 'ionic-angular';
 
+import {SelectAddressPage} from '../../pages/select-address/select-address'
 import {WelcomePage} from '../../pages/welcome/welcome'
 import {UserserviceProvider} from '../../providers/userservice/userservice'
 
@@ -14,6 +16,7 @@ import {UserserviceProvider} from '../../providers/userservice/userservice'
  */
 
     @IonicPage() @Component({selector: 'page-basic', templateUrl: 'basic.html',})
+
 export class BasicPage
 {
   firstName: string    = null;
@@ -22,10 +25,11 @@ export class BasicPage
   mom_birthday: string = null;
   gender: string       = null;
   phone: string        = null;
+  address: string      = null;
   fake                 = true;
 
   constructor(
-      public alertCtrl: AlertController,
+      public modalCtrl: ModalController, public alertCtrl: AlertController,
       public userServiceProvider: UserserviceProvider,
       public navCtrl: NavController, public navParams: NavParams)
   {
@@ -36,7 +40,7 @@ export class BasicPage
     // update db
     this.userServiceProvider.updateUserInfo(
         this.firstName, this.lastName, this.mom_birthday, this.kid_birthday,
-        this.gender, this.phone,
+        this.gender, this.phone, this.address,
         () => {
           console.log('User info updated.');
         },
@@ -55,6 +59,7 @@ export class BasicPage
           this.kid_birthday = this.userServiceProvider.getKidBirthday();
           this.gender       = this.userServiceProvider.getGender();
           this.phone        = this.userServiceProvider.getPhone();
+          this.address      = this.userServiceProvider.getAddress();
         },
         (err) => {
           console.error('Failed to load user data: ' + err);
@@ -64,8 +69,8 @@ export class BasicPage
   doneClicked(event)
   {
     this.userServiceProvider.updateUserInfo(
-        this.firstName, this.lastName, this.mom_birthday, this.kid_birthday, this.gender,
-        this.phone,
+        this.firstName, this.lastName, this.mom_birthday, this.kid_birthday,
+        this.gender, this.phone, this.address,
         () => {
           this.navCtrl.push(WelcomePage);
         },
@@ -74,5 +79,25 @@ export class BasicPage
               {title: 'Error', subTitle: err, buttons: ['OK']});
           alert.present();
         });
+  }
+
+  selectAddress(event)
+  {
+    console.log(event);
+    this.presentAddressPage();
+  }
+
+  presentAddressPage()
+  {
+    const modal = this.modalCtrl.create(SelectAddressPage);
+    modal.onDidDismiss(data => {
+      if (data != null)
+      {
+        this.address = data.address;
+        console.log('model data: ' + JSON.stringify(data));
+      }
+    });
+
+    modal.present();
   }
 }

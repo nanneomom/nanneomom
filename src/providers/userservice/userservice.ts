@@ -24,6 +24,7 @@ export class UserserviceProvider
   kid_birthday: string = null;
   gender: string       = null;
   phone: string        = null;
+  address: string      = null;
 
   isLoggedIn: boolean = false;
 
@@ -37,7 +38,7 @@ export class UserserviceProvider
     return !(
         this.firstName != null && this.firstName != '' &&
         this.lastName != null && this.lastName != '' && this.phone != null &&
-        this.phone != '');
+        this.phone != '' && this.address != '');
   }
 
   checkUserLogin(uid, email, success, fail)
@@ -99,6 +100,7 @@ export class UserserviceProvider
          kid_birthday: '',
          gender: '',
          phone: '',
+         address: '',
        })
         .then(res => {
           success();
@@ -133,6 +135,7 @@ export class UserserviceProvider
           this.birthday     = snapshot.val().birthday;
           this.kid_birthday = snapshot.val().kid_birthday;
           this.phone        = snapshot.val().phone;
+          this.address      = snapshot.val().address;
           success();
         })
         .catch(err => {
@@ -159,7 +162,8 @@ export class UserserviceProvider
   }
 
   updateUserInfo(
-      firstName, lastName, birthday, kid_birthday, gender, phone, success, fail)
+      firstName, lastName, birthday, kid_birthday, gender, phone, address,
+      success, fail)
   {
     if (!this.initialized())
     {
@@ -176,6 +180,7 @@ export class UserserviceProvider
           kid_birthday: kid_birthday,
           gender: gender,
           phone: phone,
+          address: address,
         })
         .then(res => {
           console.log('=== Wrote user data');
@@ -185,6 +190,7 @@ export class UserserviceProvider
           this.kid_birthday = kid_birthday;
           this.gender       = gender;
           this.phone        = phone;
+          this.address      = address;
           success();
         })
         .catch(err => {
@@ -220,6 +226,10 @@ export class UserserviceProvider
   getPhone()
   {
     return this.phone;
+  }
+  getAddress()
+  {
+    return this.address;
   }
 
   loginFacebook(success, fail)
@@ -309,6 +319,7 @@ export class UserserviceProvider
       this.kid_birthday = null;
       this.gender       = null;
       this.phone        = null;
+      this.address      = null;
       this.isLoggedIn   = false;
     });
   }
@@ -320,6 +331,7 @@ export class UserserviceProvider
       lastName: this.lastName,
       phone: this.phone,
       location: location,
+      address: this.address,
     });
   }
 
