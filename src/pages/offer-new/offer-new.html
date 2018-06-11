@@ -28,8 +28,25 @@
     </ion-select>
   </ion-item>
 
-  <ion-item>
+  <ion-item *ngIf="this.location == 'indoor'">
+    <ion-label>Play Grounds</ion-label>
+    <ion-select [(ngModel)]="selected_playground" [disabled]="isLocationDisabled" (ionChange)="playgroundChanged()" interface="popover">
+      <ion-option *ngFor="let pg of available_playgrounds" [value]="pg">
+        {{pg.name}}
+      </ion-option>
+    </ion-select>
+  </ion-item>
+
+  <ion-item *ngIf="this.location != 'yours'">
     <ion-label floating>Address</ion-label>
     <ion-input type="text" [(ngModel)]="address" readonly=true></ion-input>
   </ion-item>
+
+
+  <!--
+  <ion-item *ngFor="let pg of playgrounds">
+    <button ion-button full (click)="openChat(pg.name)"> {{room.other_user_name}}</button>
+  </ion-item>
+-->
+
 </ion-content>

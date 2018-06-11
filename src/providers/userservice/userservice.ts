@@ -324,14 +324,16 @@ export class UserserviceProvider
     });
   }
 
-  setOffering(location: string): Promise<any>
+  setOffering(location: string, address: string, play_ground: any): Promise<any>
   {
     return firebase.database().ref('offers/' + this.uid).set({
       firstName: this.firstName,
       lastName: this.lastName,
       phone: this.phone,
-      location: location,
-      address: this.address,
+      user_address: this.address,
+      offer_address: address,
+      offer_location: location,
+      play_ground: play_ground,
     });
   }
 

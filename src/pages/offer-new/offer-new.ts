@@ -20,10 +20,13 @@ export class OfferNewPage
   isOfferDisabled: boolean    = true;
   isLocationDisabled: boolean = true;
 
+  available_playgrounds = [];
+
   // ui var
-  offering: boolean = null;
-  location: string  = null;
-  address           = 'N/A';
+  offering: boolean   = null;
+  location: string    = null;
+  address: string     = '';
+  selected_playground = null;
 
   constructor(
       public navCtrl: NavController, public navParams: NavParams,
@@ -35,6 +38,20 @@ export class OfferNewPage
   {
     console.log('ionViewDidLoad OfferNewPage');
     this.tryLoadData();
+    this.available_playgrounds = [
+      {
+        name: 'Garcia, Mary Louise Family Day Care',
+        address: '501 N. Orchard Burbank, CA 91505',
+      },
+      {
+        name: 'Mary Alice O\'Connor Family Center',
+        address: '401 N Buena Vista St Burbank, CA 91505',
+      },
+      {
+        name: 'La Canada United Methodist Children’s Center',
+        address: '104 Berkshire Pl La Canada Flintridge, CA 91011',
+      },
+    ];
   }
 
   tryLoadData()
@@ -59,7 +76,8 @@ export class OfferNewPage
   {
     if (this.offering)
     {
-      this.userServiceProvider.setOffering(this.location)
+      this.userServiceProvider
+          .setOffering(this.location, this.address, this.selected_playground)
           .then(res => {
             this.isLocationDisabled = true;
             console.log('!!! Posted offer: location=' + this.location);
@@ -73,7 +91,11 @@ export class OfferNewPage
     {
       this.userServiceProvider.resetOffering()
           .then(res => {
-            this.isLocationDisabled = false;
+            this.location            = null;
+            this.address             = '';
+            this.selected_playground = null;
+            this.isLocationDisabled  = false;
+            this.isOfferDisabled     = true;
             console.log('!!! Removed offer');
           })
           .catch(err => {
@@ -85,7 +107,35 @@ export class OfferNewPage
 
   locationChanged()
   {
-    this.isOfferDisabled = false;
     console.log(this.location);
+    if (this.location == 'mine')
+    {
+      this.address             = this.userServiceProvider.getAddress();
+      this.selected_playground = null;
+      this.isOfferDisabled     = false;
+    }
+    else if (this.location == 'yours')
+    {
+      this.address             = '';
+      this.selected_playground = null;
+      this.isOfferDisabled     = false;
+    }
+    else if (this.location == 'indoor')
+    {
+      if (this.selected_playground == null)
+      {
+        this.address = '';
+      }
+      else
+      {
+        this.address = this.selected_playground.address;
+      }
+    }
+  }
+
+  playgroundChanged()
+  {
+    this.isOfferDisabled = false;
+    this.address         = this.selected_playground.address;
   }
 }

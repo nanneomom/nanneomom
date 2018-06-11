@@ -82,6 +82,7 @@ export class OfferPage
 
   offerChanged()
   {
+    /*
     if (this.offering)
     {
       this.userServiceProvider.setOffering(this.location)
@@ -106,6 +107,7 @@ export class OfferPage
             this.offering = true;
           });
     }
+    */
   }
 
   updateSearchResults()
@@ -120,11 +122,9 @@ export class OfferPage
           console.log('received!!!!');
           console.log(JSON.stringify(predictions));
           this.autocompleteItems = [];
-          // this.zone.run(() => {
           predictions.forEach((prediction) => {
             this.autocompleteItems.push(prediction);
           });
-          //});
         });
   }
 
