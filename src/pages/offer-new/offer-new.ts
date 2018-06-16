@@ -28,6 +28,9 @@ export class OfferNewPage
   address: string     = '';
   selected_playground = null;
 
+  lat: number = null;
+  lng: number = null;
+
   constructor(
       public navCtrl: NavController, public navParams: NavParams,
       public userServiceProvider: UserserviceProvider)
@@ -78,14 +81,18 @@ export class OfferNewPage
         console.log(JSON.stringify(result));
         console.log(' ===== read done ==== ');
 
+        // Update current location data from the loaded data.
         this.location = result.offer_location;
-        for (let i = 0; i < this.available_playgrounds.length; i++)
+        if (this.location == 'indoor')
         {
-          let pg = this.available_playgrounds[i];
-          if (pg.id == result.play_ground.id)
+          for (let i = 0; i < this.available_playgrounds.length; i++)
           {
-            this.selected_playground = pg;
-            break;
+            let pg = this.available_playgrounds[i];
+            if (pg.id == result.play_ground.id)
+            {
+              this.selected_playground = pg;
+              break;
+            }
           }
         }
         this.locationChanged();
@@ -101,7 +108,9 @@ export class OfferNewPage
     if (this.offering)
     {
       this.userServiceProvider
-          .setOffering(this.location, this.address, this.selected_playground)
+          .setOffering(
+              this.location, this.address, this.lat, this.lng,
+              this.selected_playground)
           .then(res => {
             this.isLocationDisabled = true;
             console.log('!!! Posted offer: location=' + this.location);
@@ -132,17 +141,24 @@ export class OfferNewPage
   locationChanged()
   {
     console.log(this.location);
+
     if (this.location == 'mine')
     {
       this.address             = this.userServiceProvider.getAddress();
       this.selected_playground = null;
       this.isOfferDisabled     = false;
+      // TODO: Set to the user's home location.
+      this.lat = 0;
+      this.lng = 0;
     }
     else if (this.location == 'yours')
     {
       this.address             = '';
       this.selected_playground = null;
       this.isOfferDisabled     = false;
+      // TODO: Set to the current phone location.
+      this.lat = 0;
+      this.lng = 0;
     }
     else if (this.location == 'indoor')
     {
@@ -161,5 +177,7 @@ export class OfferNewPage
   {
     this.isOfferDisabled = false;
     this.address         = this.selected_playground.address;
+    this.lat             = this.selected_playground.lat;
+    this.lng             = this.selected_playground.lng;
   }
 }
