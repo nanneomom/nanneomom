@@ -40,16 +40,25 @@ export class OfferNewPage
     this.tryLoadData();
     this.available_playgrounds = [
       {
+        id: '0',
         name: 'Garcia, Mary Louise Family Day Care',
         address: '501 N. Orchard Burbank, CA 91505',
+        lat: 34.1726783,
+        lng: -118.32703609999999,
       },
       {
+        id: '1',
         name: 'Mary Alice O\'Connor Family Center',
         address: '401 N Buena Vista St Burbank, CA 91505',
+        lat: 34.165324999999996,
+        lng: -118.331995,
       },
       {
+        id: '2',
         name: 'La Canada United Methodist Children’s Center',
         address: '104 Berkshire Pl La Canada Flintridge, CA 91011',
+        lat: 34.188841999999994,
+        lng: -118.17954400000002,
       },
     ];
   }
@@ -64,8 +73,23 @@ export class OfferNewPage
       }
       else
       {
-        this.offering           = true;
-        this.location           = result.location;
+        this.offering = true;
+        console.log(' ===== read result ==== ');
+        console.log(JSON.stringify(result));
+        console.log(' ===== read done ==== ');
+
+        this.location = result.offer_location;
+        for (let i = 0; i < this.available_playgrounds.length; i++)
+        {
+          let pg = this.available_playgrounds[i];
+          if (pg.id == result.play_ground.id)
+          {
+            this.selected_playground = pg;
+            break;
+          }
+        }
+        this.locationChanged();
+
         this.isLocationDisabled = true;
         this.isOfferDisabled    = false;
       }
