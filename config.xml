@@ -3,7 +3,7 @@
     <name>NanneoMom</name>
     <description>An awesome app for moms.</description>
     <author email="nanneomom@gmail.com" href="http://ionicframework.com/">Ionic Framework Team</author>
-    <content original-src="index.html" src="http://10.105.90.24:8100" />
+    <content original-src="index.html" src="http://192.168.86.30:8100" />
     <access origin="*" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />

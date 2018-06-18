@@ -1,4 +1,5 @@
 import {Component} from '@angular/core';
+import firebase from 'firebase';
 import {IonicPage, NavController, NavParams} from 'ionic-angular';
 
 import {UserserviceProvider} from '../../providers/userservice/userservice';
@@ -40,7 +41,7 @@ export class OfferNewPage
   ionViewDidLoad()
   {
     console.log('ionViewDidLoad OfferNewPage');
-    this.tryLoadData();
+    // this.initPlaygrounds();
     this.available_playgrounds = [
       {
         id: '0',
@@ -64,6 +65,33 @@ export class OfferNewPage
         lng: -118.17954400000002,
       },
     ];
+
+    this.tryLoadData();
+  }
+
+  initPlaygrounds()
+  {
+    var ref = firebase.database().ref('playGrounds/');
+    ref.on('child_added', (data) => {
+      console.log('READ KEY: ' + data.key);
+      console.log('READ VAL: ' + JSON.stringify(data));
+      var key   = data.key;
+      var value = data.val();
+      // this.tryAddMarker(key, value);
+    });
+
+    ref.on(
+        'child_changed',
+        (data) => {
+            // this.tryRemoveMarker(data.key);
+            // this.tryAddMarker(data.key, data.val());
+        });
+
+    ref.on(
+        'child_removed',
+        (data) => {
+            // this.tryRemoveMarker(data.key);
+        });
   }
 
   tryLoadData()
