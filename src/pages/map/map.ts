@@ -121,33 +121,48 @@ export class MapPage
   {
     return (
         value.hasOwnProperty('firstName') && value.hasOwnProperty('lat') &&
-        value.hasOwnProperty('lng') && value.hasOwnProperty('location'));
+        value.hasOwnProperty('lng') && value.hasOwnProperty('offer_location'));
   }
 
   tryAddMarker(key, value)
   {
     if (this.hasMarkerInformation(value))
     {
+      console.log('adding marker: ' + JSON.stringify(value));
+      var offer_location = null;
+      if (value.offer_location == 'mine')
+      {
+        offer_location = 'Home';
+      }
+      else if (value.offer_location == 'yours')
+      {
+        offer_location = 'Remote Home';
+      }
+      else
+      {
+        offer_location = 'Playground';
+      }
+
+      var title = 'Name: ' + value.firstName + ' ' + value.lastName + '\n';
+      title += 'Type: ' + offer_location;
       this.map
           .addMarker({
-            title: value.firstName + ', more info...',
+            title: title,
             icon: 'blue',
             animation: 'DROP',
             position: {lat: value.lat, lng: value.lng}
           })
           .then(marker => {
-            marker.on(GoogleMapsEvent.MARKER_CLICK)
-                .subscribe(
-                    () => {
-                        // alert('Location: ' + value.location);
-                    });
             marker.on(GoogleMapsEvent.INFO_CLICK).subscribe(() => {
               this.navCtrl.push(ChatroomPage, {otherUserId: key});
             });
-
             this.markers.set(key, marker);
-            console.log('added : ' + JSON.stringify(this.markers));
           });
+    }
+    else
+    {
+      console.log(
+          'ERROR, not enough info for marker: ' + JSON.stringify(value));
     }
   }
 
@@ -184,8 +199,6 @@ export class MapPage
 
     var ref = firebase.database().ref('offers/');
     ref.on('child_added', (data) => {
-      console.log('added key: ' + data.key);
-      console.log('added val: ' + JSON.stringify(data));
       var key   = data.key;
       var value = data.val();
 
