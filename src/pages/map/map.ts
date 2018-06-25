@@ -6,6 +6,7 @@ import firebase from 'firebase';
 import {IonicPage, NavController, NavParams, Platform} from 'ionic-angular';
 
 import {ChatroomPage} from '../../pages/chatroom/chatroom';
+import {DetailPage} from '../../pages/detail/detail';
 import {UserserviceProvider} from '../../providers/userservice/userservice';
 
 /**
@@ -154,7 +155,7 @@ export class MapPage
           })
           .then(marker => {
             marker.on(GoogleMapsEvent.INFO_CLICK).subscribe(() => {
-              this.navCtrl.push(ChatroomPage, {otherUserId: key});
+              this.navCtrl.push(DetailPage, {offer: value});
             });
             this.markers.set(key, marker);
           });

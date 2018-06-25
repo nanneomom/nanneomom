@@ -13,6 +13,7 @@ import {GooglePlacesAutocompleteComponentModule} from 'ionic2-google-places-auto
 import {BasicPage} from '../pages/basic/basic';
 import {ChatPage} from '../pages/chat/chat';
 import {ChatroomPage} from '../pages/chatroom/chatroom';
+import {DetailPage} from '../pages/detail/detail';
 import {HomePage} from '../pages/home/home';
 import {LoginPage} from '../pages/login/login';
 import {MainTabsPage} from '../pages/main-tabs/main-tabs';
@@ -47,6 +48,7 @@ firebase.initializeApp(environment.firebase);
     HomePage,
     LoginPage,
     BasicPage,
+    DetailPage,
     WelcomePage,
     MapPage,
     OfferPage,
@@ -71,6 +73,7 @@ firebase.initializeApp(environment.firebase);
     MyApp,
     HomePage,
     LoginPage,
+    DetailPage,
     BasicPage,
     WelcomePage,
     MapPage,
