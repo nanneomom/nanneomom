@@ -25,6 +25,7 @@ export class UserserviceProvider
   gender: string       = null;
   phone: string        = null;
   address: string      = null;
+  location             = null;
 
   isLoggedIn: boolean = false;
 
@@ -136,6 +137,7 @@ export class UserserviceProvider
           this.kid_birthday = snapshot.val().kid_birthday;
           this.phone        = snapshot.val().phone;
           this.address      = snapshot.val().address;
+          this.location     = snapshot.val().location;
           success();
         })
         .catch(err => {
@@ -163,7 +165,7 @@ export class UserserviceProvider
 
   updateUserInfo(
       firstName, lastName, birthday, kid_birthday, gender, phone, address,
-      success, fail)
+      location, success, fail)
   {
     if (!this.initialized())
     {
@@ -181,6 +183,7 @@ export class UserserviceProvider
           gender: gender,
           phone: phone,
           address: address,
+          location: location,
         })
         .then(res => {
           console.log('=== Wrote user data');
@@ -191,6 +194,7 @@ export class UserserviceProvider
           this.gender       = gender;
           this.phone        = phone;
           this.address      = address;
+          this.location     = location;
           success();
         })
         .catch(err => {
@@ -230,6 +234,11 @@ export class UserserviceProvider
   getAddress()
   {
     return this.address;
+  }
+
+  getLocation()
+  {
+    return this.location;
   }
 
   loginFacebook(success, fail)

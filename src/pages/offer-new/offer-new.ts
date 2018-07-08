@@ -175,9 +175,8 @@ export class OfferNewPage
       this.address             = this.userServiceProvider.getAddress();
       this.selected_playground = null;
       this.isOfferDisabled     = false;
-      // TODO: Set to the user's home location.
-      this.lat = 0;
-      this.lng = 0;
+      this.lat                 = this.userServiceProvider.getLocation().lat;
+      this.lng                 = this.userServiceProvider.getLocation().lng;
     }
     else if (this.location == 'yours')
     {

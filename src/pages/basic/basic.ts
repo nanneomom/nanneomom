@@ -1,4 +1,5 @@
 import {Component} from '@angular/core';
+import {NativeGeocoder, NativeGeocoderForwardResult, NativeGeocoderOptions} from '@ionic-native/native-geocoder';
 import {IonicPage, NavController, NavParams, Select} from 'ionic-angular';
 import {AlertController} from 'ionic-angular';
 import {ModalController} from 'ionic-angular';
@@ -26,12 +27,14 @@ export class BasicPage
   gender: string       = null;
   phone: string        = null;
   address: string      = null;
+  location             = null;
   fake                 = true;
 
   constructor(
       public modalCtrl: ModalController, public alertCtrl: AlertController,
       public userServiceProvider: UserserviceProvider,
-      public navCtrl: NavController, public navParams: NavParams)
+      public nativeGeocoder: NativeGeocoder, public navCtrl: NavController,
+      public navParams: NavParams)
   {
   }
 
@@ -40,7 +43,7 @@ export class BasicPage
     // update db
     this.userServiceProvider.updateUserInfo(
         this.firstName, this.lastName, this.mom_birthday, this.kid_birthday,
-        this.gender, this.phone, this.address,
+        this.gender, this.phone, this.address, this.location,
         () => {
           console.log('User info updated.');
         },
@@ -60,24 +63,10 @@ export class BasicPage
           this.gender       = this.userServiceProvider.getGender();
           this.phone        = this.userServiceProvider.getPhone();
           this.address      = this.userServiceProvider.getAddress();
+          this.location     = this.userServiceProvider.getLocation();
         },
         (err) => {
           console.error('Failed to load user data: ' + err);
-        });
-  }
-
-  doneClicked(event)
-  {
-    this.userServiceProvider.updateUserInfo(
-        this.firstName, this.lastName, this.mom_birthday, this.kid_birthday,
-        this.gender, this.phone, this.address,
-        () => {
-          this.navCtrl.push(WelcomePage);
-        },
-        (err) => {
-          let alert = this.alertCtrl.create(
-              {title: 'Error', subTitle: err, buttons: ['OK']});
-          alert.present();
         });
   }
 
@@ -93,7 +82,8 @@ export class BasicPage
     modal.onDidDismiss(data => {
       if (data != null)
       {
-        this.address = data.address;
+        this.address  = data.address;
+        this.location = data.location;
         console.log('model data: ' + JSON.stringify(data));
       }
     });

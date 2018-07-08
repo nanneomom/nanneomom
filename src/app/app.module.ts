@@ -2,6 +2,7 @@ import {HttpClientModule} from '@angular/common/http'
 import {ErrorHandler, NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 import {Geolocation} from '@ionic-native/geolocation';
+import {NativeGeocoder, NativeGeocoderForwardResult, NativeGeocoderOptions, NativeGeocoderReverseResult} from '@ionic-native/native-geocoder';
 import {SplashScreen} from '@ionic-native/splash-screen';
 import {StatusBar} from '@ionic-native/status-bar';
 import {AngularFireModule} from 'angularfire2';
@@ -88,6 +89,7 @@ firebase.initializeApp(environment.firebase);
   ],
   providers: [
     StatusBar,
+    NativeGeocoder,
     Geolocation,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},

@@ -61,13 +61,31 @@ export class SelectAddressPage
 
   selectSearchResult(item)
   {
+    /*
+    console.log('---------item----------');
+    console.log(JSON.stringify(item));
+    console.log('-------------------');
+    */
+
     // this.clearMarkers();
     this.autocompleteItems = [];
 
     this.geocoder.geocode({'placeId': item.place_id}, (results, status) => {
       if (status === 'OK' && results[0])
       {
-        this.viewCtrl.dismiss({'address': results[0].formatted_address});
+        /*
+        console.log('---------result----------');
+        console.log(JSON.stringify(results[0]));
+        console.log('-------------------');
+        */
+
+        this.viewCtrl.dismiss({
+          'address': results[0].formatted_address,
+          'location': {
+            'lat': results[0].geometry.location.lat(),
+            'lng': results[0].geometry.location.lng(),
+          }
+        });
 
         // this.autocomplete.input = results[0].formatted_address;
         // TODO: map
