@@ -9,11 +9,16 @@
   <ion-navbar>
     <ion-title>{{otherUserName}}</ion-title>
   </ion-navbar>
-
+  <ion-list>
+    <ion-item>
+      <ion-textarea type="text" [(ngModel)]="deal" readonly=true></ion-textarea>
+    </ion-item>
+  </ion-list>
 </ion-header>
 
 
 <ion-content padding>
+
   <div class="message-wrap">
     <div *ngFor="let msg of messages" class="message" [class.left]=" msg.user === otherUserId" [class.right]=" msg.user === myUserId">
       <!--

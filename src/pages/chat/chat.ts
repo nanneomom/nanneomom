@@ -1,21 +1,27 @@
 import {Component} from '@angular/core';
 import firebase from 'firebase';
 import {IonicPage, NavController, NavParams} from 'ionic-angular';
+
+import {ChatroomPage} from '../../pages/chatroom/chatroom';
 import {ChatServiceProvider} from '../../providers/chat-service/chat-service';
-import {UserserviceProvider} from '../../providers/userservice/userservice'
-import {ChatroomPage} from '../../pages/chatroom/chatroom'
-    /**
+import {UserserviceProvider} from '../../providers/userservice/userservice';
+
+/**
  * Generated class for the ChatPage page.
  *
  * See https://ionicframework.com/docs/components/#navigation for more info on
  * Ionic pages and navigation.
  */
 
-@IonicPage() @Component({selector: 'page-chat', templateUrl: 'chat.html',})
+@IonicPage()
+@Component({
+  selector: 'page-chat',
+  templateUrl: 'chat.html',
+})
 
 export class ChatPage
 {
-  public chat_rooms: Array<any> =   [];
+  public chat_rooms: Array<any> = [];
   db_ref                        = null;
 
   constructor(

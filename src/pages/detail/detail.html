@@ -25,11 +25,11 @@
     </ion-item>
     <ion-item>
       <ion-label>Start Time</ion-label>
-      <ion-datetime displayFormat="h:mm A" pickerFormat="h mm A" [(ngModel)]="start_time"></ion-datetime>
+      <ion-datetime displayFormat="h:mm A" pickerFormat="h mm A" [(ngModel)]="start_time" (ionChange)="startChanged()"></ion-datetime>
     </ion-item>
     <ion-item>
       <ion-label>Duration</ion-label>
-      <ion-select [(ngModel)]="duratoin" interface="popover">
+      <ion-select [(ngModel)]="duration" interface="popover" (ionChange)="durationChanged()">
         <ion-option value=1>1 Hrs</ion-option>
         <ion-option value=2>2 Hrs</ion-option>
         <ion-option value=3>3 Hrs</ion-option>

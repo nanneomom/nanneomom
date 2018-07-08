@@ -27,6 +27,7 @@ export class ChatroomPage
   myUserId             = null;
   otherUserId          = null;
   otherUserName        = null;
+  deal                 = null;
 
   constructor(
       public navCtrl: NavController, public navParams: NavParams,
@@ -39,6 +40,7 @@ export class ChatroomPage
   {
     console.log('ionViewDidLoad ChatroomPage');
     this.otherUserId = this.navParams.get('otherUserId');
+    this.deal        = this.navParams.get('deal');
     console.log('talking with uid=' + this.otherUserId);
 
     this.myUserId = this.userServiceProvider.getUserId();

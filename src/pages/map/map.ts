@@ -155,7 +155,10 @@ export class MapPage
           })
           .then(marker => {
             marker.on(GoogleMapsEvent.INFO_CLICK).subscribe(() => {
-              this.navCtrl.push(DetailPage, {offer: value});
+              this.navCtrl.push(DetailPage, {
+                id: key,
+                offer: value,
+              });
             });
             this.markers.set(key, marker);
           });
