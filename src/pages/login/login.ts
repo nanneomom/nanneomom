@@ -83,10 +83,10 @@ export class LoginPage
         })
   }
 
-  loginFake()
+  loginFake(id, pwd)
   {
     this.userServiceProvider.loginEmail(
-        'nanneomom@gmail.com', 'ahya2486',
+        id, pwd,
         res => {
           console.log(res);
           this.updateChat('fake');
@@ -100,10 +100,26 @@ export class LoginPage
         })
   }
 
+  loginNanneo()
+  {
+    this.loginFake('nanneomom@gmail.com', 'ahya2486');
+  }
+
+  loginHannah()
+  {
+    this.loginFake('hannahkim0710@gmail.com', 'ahya2486');
+  }
+
+  loginJenna()
+  {
+    this.loginFake('gojennakim@gmail.com', 'ahya2486');
+  }
+
   updateChat(authType: string)
   {
     this.chatServiceProvider.writeChat(
-        this.userServiceProvider.getUserId(), 'Logged in at ' + Date() + ", using " + authType + ".");
+        this.userServiceProvider.getUserId(),
+        'Logged in at ' + Date() + ', using ' + authType + '.');
   }
 
   logout()
