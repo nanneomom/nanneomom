@@ -15,11 +15,6 @@
 
 <ion-content padding>
   <ion-item>
-    <ion-label>I'm offering</ion-label>
-    <ion-toggle [(ngModel)]="offering" [disabled]="isOfferDisabled" (ionChange)="offerChanged()"></ion-toggle>
-  </ion-item>
-
-  <ion-item>
     <ion-label>At</ion-label>
     <ion-select [(ngModel)]="location" [disabled]="isLocationDisabled" (ionChange)="locationChanged()" interface="popover">
       <ion-option value="mine">My Home</ion-option>
@@ -40,6 +35,11 @@
   <ion-item *ngIf="this.location != 'yours'">
     <ion-label floating>Address</ion-label>
     <ion-input type="text" [(ngModel)]="address" readonly=true></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label>I'm offering</ion-label>
+    <ion-toggle [(ngModel)]="offering" [disabled]="isOfferDisabled" (ionChange)="offerChanged()"></ion-toggle>
   </ion-item>
 
 

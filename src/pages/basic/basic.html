@@ -20,15 +20,15 @@
       <ion-datetime displayFormat="MM/DD/YYYY" [(ngModel)]="mom_birthday"></ion-datetime>
     </ion-item>
     <ion-item>
-      <ion-label>First Kid's Birthday</ion-label>
-      <ion-datetime displayFormat="MM/YYYY" [(ngModel)]="kid_birthday"></ion-datetime>
-    </ion-item>
-    <ion-item>
-      <ion-label>Gender</ion-label>
+      <ion-label>User Gender</ion-label>
       <ion-select [(ngModel)]="gender" interface="popover">
         <ion-option value="female">Female</ion-option>
         <ion-option value="male">Male</ion-option>
       </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-label>First Kid's Birthday</ion-label>
+      <ion-datetime displayFormat="MM/YYYY" [(ngModel)]="kid_birthday"></ion-datetime>
     </ion-item>
     <ion-item>
       <ion-label floating>Phone Number</ion-label>
