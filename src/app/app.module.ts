@@ -1,6 +1,7 @@
 import {HttpClientModule} from '@angular/common/http'
 import {ErrorHandler, NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
+import {Firebase} from '@ionic-native/firebase';
 import {Geolocation} from '@ionic-native/geolocation';
 import {NativeGeocoder, NativeGeocoderForwardResult, NativeGeocoderOptions, NativeGeocoderReverseResult} from '@ionic-native/native-geocoder';
 import {SplashScreen} from '@ionic-native/splash-screen';
@@ -25,6 +26,7 @@ import {SearchPage} from '../pages/search/search';
 import {SelectAddressPage} from '../pages/select-address/select-address';
 import {WelcomePage} from '../pages/welcome/welcome';
 import {ChatServiceProvider} from '../providers/chat-service/chat-service';
+import {FcmProvider} from '../providers/fcm/fcm';
 import {UserserviceProvider} from '../providers/userservice/userservice';
 
 import {MyApp} from './app.component';
@@ -88,6 +90,7 @@ firebase.initializeApp(environment.firebase);
     ChatroomPage,
   ],
   providers: [
+    Firebase,
     StatusBar,
     NativeGeocoder,
     Geolocation,
@@ -95,6 +98,7 @@ firebase.initializeApp(environment.firebase);
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     UserserviceProvider,
     ChatServiceProvider,
+    FcmProvider,
   ]
 })
 export class AppModule

@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 // import {ElementRef, ViewChild} from '@angular/core';
 import {Geolocation} from '@ionic-native/geolocation';
-import {GoogleMap, GoogleMaps, GoogleMapsEvent} from '@ionic-native/google-maps';
+import {GoogleMap, GoogleMapOptions, GoogleMaps, GoogleMapsEvent, Marker} from '@ionic-native/google-maps';
 import firebase from 'firebase';
 import {IonicPage, NavController, NavParams, Platform} from 'ionic-angular';
 
@@ -54,13 +54,13 @@ export class MapPage
   {
     if (!this.mapInitialized)
       return;
-    this.tryMoveCamera();
+    // this.tryMoveCamera();
   }
 
   ionViewDidLeave()
   {
     console.log('leave');
-    this.removeAllMarkers();
+    // this.removeAllMarkers();
   }
 
   getLocation(success, fail)
@@ -108,13 +108,7 @@ export class MapPage
     var loc = {'lat': lat, 'lng': lng};
 
     console.log('moving camera: lat=' + lat + 'lng=' + lng);
-    this.map.animateCamera({
-      'target': loc,
-      'zoom': 8,
-      'duration': 1000
-      //'tilt': 60,
-      //'bearing': 140,
-    });
+    this.map.animateCamera({'target': loc, 'zoom': 8, 'duration': 1000});
     this.addMarkers();
   }
 
